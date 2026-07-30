@@ -472,15 +472,11 @@ export default function UserAccess() {
 
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#D5E2DF]">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-bold text-[#173F3A] tracking-tight">User Access & Security</h1>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-teal-50 text-[#23796F] border border-teal-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              RBAC Guard Active
-            </span>
-          </div>
-          <p className="text-xs text-gray-500">Manage member authentication, access permissions, invitations, and sign-in credentials.</p>
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-teal-50 text-[#23796F] border border-teal-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            RBAC Guard Active
+          </span>
         </div>
 
         <div className="flex items-center gap-2.5">

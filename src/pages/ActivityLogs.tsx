@@ -24,12 +24,6 @@ export default function ActivityLogs() {
 
   return (
     <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="pb-2 border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-[#173F3A]">Activity Logs</h1>
-        <p className="text-sm text-gray-500 mt-1">Audit history of administrative actions, user access changes, and system events.</p>
-      </div>
-
       {/* Toolbar */}
       <div className="bg-white p-4 rounded-xl border border-[#D5E2DF] shadow-2xs flex items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">

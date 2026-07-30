@@ -66,29 +66,14 @@ export default function MyProfile() {
   return (
     <div className="flex flex-col h-full bg-[#F5F8F7]">
       {/* Header */}
-      <header className="shrink-0 bg-white border-b border-[#D5E2DF] px-4 py-4 sm:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-              <span>Home</span>
-              <span>/</span>
-              <span className="font-semibold text-[#173F3A]">My Account</span>
-              <span>/</span>
-              <span className="text-[#23796F]">My Profile</span>
-            </div>
-            <h1 className="text-2xl font-semibold text-[#173F3A]">My Member Profile</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
-              View your personal details, assigned room, and send profile change requests to Admin.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#23796F] text-white rounded-lg font-semibold text-xs uppercase tracking-wider hover:bg-[#173F3A] transition-colors shadow-sm"
-          >
-            <Send className="w-4 h-4" /> Request Profile Update
-          </button>
-        </div>
+      <header className="shrink-0 bg-white border-b border-[#D5E2DF] px-4 py-3 sm:px-8 flex items-center justify-end">
+        <button
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#23796F] text-white rounded-lg font-semibold text-xs uppercase tracking-wider hover:bg-[#173F3A] transition-colors shadow-sm"
+        >
+          <Send className="w-4 h-4" /> Request Profile Update
+        </button>
       </header>
 
       <div className="flex-1 p-4 sm:p-8 space-y-6 overflow-y-auto max-w-6xl mx-auto w-full">

@@ -52,23 +52,17 @@ export default function Members() {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F8F7]">
-      <header className="h-16 shrink-0 flex items-center justify-between px-4 sm:px-8 bg-white border-b border-[#D5E2DF]">
-        <div>
-          <h1 className="text-xl font-semibold text-[#173F3A]">Members Directory</h1>
-          <p className="text-xs text-gray-500">Executive Home Approved Residents & Charges</p>
-        </div>
-        {isAdmin && (
-          <div className="flex space-x-4">
-            <button
-              type="button"
-              onClick={() => setIsAddModalOpen(true)}
-              className="px-4 py-2 bg-[#23796F] text-white text-xs font-bold rounded-lg hover:bg-[#173F3A] transition-colors uppercase tracking-widest shadow-sm flex items-center gap-1.5"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add Member
-            </button>
-          </div>
-        )}
-      </header>
+      {isAdmin && (
+        <header className="h-14 shrink-0 flex items-center justify-end px-4 sm:px-8 bg-white border-b border-[#D5E2DF]">
+          <button
+            type="button"
+            onClick={() => setIsAddModalOpen(true)}
+            className="px-4 py-2 bg-[#23796F] text-white text-xs font-bold rounded-lg hover:bg-[#173F3A] transition-colors uppercase tracking-widest shadow-sm flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" /> Add Member
+          </button>
+        </header>
+      )}
 
       <AddMemberModal
         isOpen={isAddModalOpen}

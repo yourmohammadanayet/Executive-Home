@@ -41,16 +41,13 @@ export default function Documents() {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F8F7]">
-      <header className="h-16 shrink-0 flex items-center justify-between px-4 sm:px-8 bg-white border-b border-[#D5E2DF]">
-        <h1 className="text-xl font-semibold text-[#173F3A]">Documents</h1>
-        <div className="flex space-x-4">
-          <button
-            onClick={() => setIsUploadOpen(true)}
-            className="px-4 py-2 bg-[#23796F] text-white text-xs font-bold rounded-lg hover:bg-[#173F3A] transition-colors uppercase tracking-widest"
-          >
-            Upload Document
-          </button>
-        </div>
+      <header className="h-14 shrink-0 flex items-center justify-end px-4 sm:px-8 bg-white border-b border-[#D5E2DF]">
+        <button
+          onClick={() => setIsUploadOpen(true)}
+          className="px-4 py-2 bg-[#23796F] text-white text-xs font-bold rounded-lg hover:bg-[#173F3A] transition-colors uppercase tracking-widest shadow-sm"
+        >
+          Upload Document
+        </button>
       </header>
 
       <UploadDocumentModal

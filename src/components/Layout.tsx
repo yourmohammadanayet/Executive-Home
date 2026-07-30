@@ -18,22 +18,34 @@ import {
   ChevronRight, 
   Bell, 
   HelpCircle, 
-  ChevronDown 
+  ChevronDown
 } from 'lucide-react';
 import clsx from 'clsx';
+import { motion } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    return localStorage.getItem('sidebar_collapsed') === 'true';
+  });
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
   const { userAccess, role, isAdmin, isMember, signOut, switchRoleMode } = useAuth();
 
   const handleLogout = async () => {
     await signOut();
+    setShowLogoutModal(false);
     navigate('/login');
+  };
+
+  const toggleSidebarCollapse = () => {
+    const newValue = !isCollapsed;
+    setIsCollapsed(newValue);
+    localStorage.setItem('sidebar_collapsed', String(newValue));
   };
 
   // Grouped Navigation for Admin
@@ -181,43 +193,60 @@ export default function Layout() {
 
   const headerDetails = getHeaderDetails();
 
+  const getBadge = (name: string) => {
+    if (name === 'Monthly Payments' || name === 'My Payments') {
+      return (
+        <span className="ml-auto inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider rounded bg-red-100 text-red-700 border border-red-200 animate-pulse shrink-0">
+          3 Due
+        </span>
+      );
+    }
+    if (name === 'Documents') {
+      return (
+        <span className="ml-auto flex h-2 w-2 relative shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="min-h-screen bg-[#F5F8F7] font-sans text-[#173F3A] flex flex-col overflow-hidden">
+    <div className="h-screen w-screen bg-[#F5F8F7] font-sans text-[#173F3A] flex flex-col overflow-hidden">
       {/* Mobile Backdrop */}
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 z-40 bg-gray-900/60 lg:hidden"
+          className="fixed inset-0 z-40 bg-gray-900/60 lg:hidden backdrop-blur-xs"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      <div className="flex flex-1 h-screen overflow-hidden">
+      <div className="flex flex-1 h-full overflow-hidden">
         {/* Sidebar */}
         <aside className={clsx(
-          "fixed inset-y-0 left-0 z-50 bg-white border-r border-[#D5E2DF] transition-all duration-300 ease-in-out lg:static lg:translate-x-0 flex flex-col shrink-0 shadow-xs",
-          isCollapsed ? "w-16" : "w-[235px]",
+          "fixed inset-y-0 left-0 z-50 h-screen lg:h-full bg-white border-r border-[#D5E2DF] transition-all duration-300 ease-in-out lg:static lg:translate-x-0 flex flex-col shrink-0 shadow-xs overflow-hidden",
+          isCollapsed ? "lg:w-16 w-[245px]" : "w-[245px]",
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}>
           {/* Logo Section */}
-          <div className="flex h-16 items-center justify-between px-4 border-b border-[#D5E2DF]">
+          <div className="flex h-16 items-center justify-between px-4 border-b border-[#D5E2DF] shrink-0">
             <div className="flex items-center gap-3 overflow-hidden">
-              <div className="h-8 w-8 rounded bg-[#23796F] text-white flex items-center justify-center font-extrabold text-sm shrink-0">
+              <div className="h-8 w-8 rounded-lg bg-[#23796F] text-white flex items-center justify-center font-extrabold text-sm shrink-0 shadow-xs">
                 EH
               </div>
-              {!isCollapsed && (
-                <div className="flex flex-col min-w-0">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#173F3A] truncate">
-                    Executive Home
-                  </span>
-                  <span className="text-[10px] text-gray-500 truncate">Resident Management</span>
-                </div>
-              )}
+              <div className={clsx("flex flex-col min-w-0 transition-all duration-300", isCollapsed ? "lg:opacity-0 lg:w-0 lg:h-0 overflow-hidden" : "opacity-100")}>
+                <span className="text-xs font-bold uppercase tracking-wider text-[#173F3A] truncate leading-none">
+                  Executive Home
+                </span>
+                <span className="text-[10px] text-gray-500 truncate mt-1">Resident Management</span>
+              </div>
             </div>
 
             {/* Collapse Toggle (Desktop) */}
             <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="hidden lg:flex p-1 text-gray-400 hover:text-[#23796F] rounded hover:bg-gray-100"
+              onClick={toggleSidebarCollapse}
+              className="hidden lg:flex p-1.5 text-gray-400 hover:text-[#23796F] rounded-lg hover:bg-gray-100 transition-colors"
               title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -225,14 +254,12 @@ export default function Layout() {
           </div>
 
           {/* Grouped Sidebar Navigation */}
-          <nav className="p-3 space-y-5 flex-1 overflow-y-auto">
+          <nav className="p-3 space-y-5 flex-1 overflow-y-auto scrollbar-thin">
             {currentGroups.map((group) => (
               <div key={group.groupName} className="space-y-1">
-                {!isCollapsed && (
-                  <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">
-                    {group.groupName}
-                  </div>
-                )}
+                <div className={clsx("px-3 text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1 transition-all duration-300", isCollapsed ? "lg:opacity-0 lg:h-0 overflow-hidden" : "opacity-100")}>
+                  {group.groupName}
+                </div>
                 {group.items.map((item) => {
                   const isActive = 
                     location.pathname === item.href || 
@@ -245,25 +272,54 @@ export default function Layout() {
                       onClick={() => setSidebarOpen(false)}
                       title={isCollapsed ? item.name : undefined}
                       className={clsx(
-                        "flex items-center px-3 py-2 text-xs font-semibold rounded-md transition-all group relative outline-none",
+                        "flex items-center px-3 py-2.5 text-xs font-semibold rounded-lg transition-all duration-200 group relative outline-none",
                         isActive
-                          ? "bg-[#EBF3F2] text-[#173F3A] border-l-[3px] border-[#23796F] font-bold"
-                          : "text-gray-600 hover:bg-[#F5F8F7] hover:text-[#23796F]"
+                          ? "text-[#173F3A] font-bold"
+                          : "text-gray-600 hover:bg-[#F5F8F7]/50 hover:text-[#23796F]"
                       )}
                     >
-                      <item.icon className={clsx(
-                        "w-4 h-4 shrink-0 transition-colors",
-                        isCollapsed ? "mx-auto" : "mr-3",
-                        isActive ? "text-[#23796F]" : "text-gray-500 group-hover:text-[#23796F]"
-                      )} />
-
-                      {!isCollapsed && (
-                        <span className="truncate">{item.name}</span>
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeTabBackground"
+                          className="absolute inset-0 bg-[#EBF3F2] border-l-[3.5px] border-[#23796F] z-0 rounded-lg"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
                       )}
+                      
+                      <div className="relative z-10 flex items-center justify-between w-full min-w-0">
+                        <div className="flex items-center min-w-0 w-full">
+                          <div className="relative flex items-center shrink-0">
+                            <item.icon className={clsx(
+                              "w-4 h-4 shrink-0 transition-colors",
+                              isCollapsed ? "lg:mx-auto" : "mr-3",
+                              isActive ? "text-[#23796F]" : "text-gray-500 group-hover:text-[#23796F]"
+                            )} />
+                            {isCollapsed && (item.name === 'Monthly Payments' || item.name === 'My Payments') && (
+                              <span className="absolute -top-1 -right-1 flex h-1.5 w-1.5 lg:flex hidden">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500"></span>
+                              </span>
+                            )}
+                            {isCollapsed && item.name === 'Documents' && (
+                              <span className="absolute -top-1 -right-1 flex h-1.5 w-1.5 lg:flex hidden">
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                              </span>
+                            )}
+                          </div>
+
+                          <span className={clsx("truncate transition-all duration-300", isCollapsed ? "lg:opacity-0 lg:w-0 overflow-hidden lg:ml-0 ml-3" : "ml-3")}>
+                            {item.name}
+                          </span>
+                        </div>
+
+                        <div className={clsx("transition-all duration-300", isCollapsed ? "lg:opacity-0 lg:w-0 overflow-hidden" : "opacity-100")}>
+                          {getBadge(item.name)}
+                        </div>
+                      </div>
 
                       {/* Tooltip in collapsed mode */}
                       {isCollapsed && (
-                        <div className="absolute left-full ml-2 px-2.5 py-1 bg-gray-900 text-white text-[11px] font-medium rounded shadow-md opacity-0 group-hover:opacity-100 pointer-events-none z-50 whitespace-nowrap transition-opacity">
+                        <div className="absolute left-full ml-2 px-2.5 py-1 bg-gray-900 text-white text-[11px] font-medium rounded shadow-md opacity-0 lg:group-hover:opacity-100 pointer-events-none z-50 whitespace-nowrap transition-opacity hidden lg:block">
                           {item.name}
                         </div>
                       )}
@@ -275,33 +331,55 @@ export default function Layout() {
           </nav>
 
           {/* Sidebar Footer User Section */}
-          <div className="p-3 border-t border-[#D5E2DF] bg-gray-50/50">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="w-8 h-8 rounded-full bg-[#173F3A] text-white flex items-center justify-center font-bold text-xs shrink-0 border border-[#23796F]">
+          <div className="p-4 border-t border-[#D5E2DF] bg-gray-50/50 transition-colors shrink-0">
+            {/* Expanded Footer (Visible when not collapsed, OR always on mobile) */}
+            <div className={clsx("flex flex-col gap-3 w-full", isCollapsed ? "flex lg:hidden" : "flex")}>
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-10 h-10 rounded-full bg-[#173F3A] text-white flex items-center justify-center font-bold text-sm shrink-0 border-2 border-[#23796F] shadow-xs">
                   {userAccess?.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')}
                 </div>
-                {!isCollapsed && (
-                  <div className="flex flex-col min-w-0 text-left">
-                    <span className="text-xs font-bold text-[#173F3A] truncate">
-                      {userAccess?.full_name || (isAdmin ? 'Mohammad Anayet' : 'Member User')}
-                    </span>
-                    <span className="text-[10px] font-semibold text-[#23796F] uppercase tracking-wider">
-                      {role}
-                    </span>
-                  </div>
-                )}
+                <div className="flex flex-col min-w-0 text-left">
+                  <span className="text-xs font-bold text-[#173F3A] truncate leading-tight">
+                    {userAccess?.full_name || (isAdmin ? 'Mohammad Anayet' : 'Member User')}
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#23796F] uppercase tracking-wider mt-0.5">
+                    {role}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Upgraded Full-width Logout Button */}
+              <button
+                onClick={() => setShowLogoutModal(true)}
+                className="w-full h-11 flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold text-gray-600 hover:text-red-600 bg-white hover:bg-red-50/50 border border-gray-200 hover:border-red-200 rounded-xl transition-all shadow-2xs cursor-pointer"
+              >
+                <LogOut className="w-4 h-4 shrink-0" />
+                <span>Log Out</span>
+              </button>
+            </div>
+
+            {/* Collapsed Footer (Visible ONLY when collapsed, AND on desktop) */}
+            <div className={clsx("flex-col items-center gap-4", isCollapsed ? "hidden lg:flex" : "hidden")}>
+              <div 
+                className="w-10 h-10 rounded-full bg-[#173F3A] text-white flex items-center justify-center font-bold text-sm shrink-0 border-2 border-[#23796F] shadow-xs cursor-help relative group/profile"
+              >
+                {userAccess?.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')}
+                <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-gray-900 text-white text-[11px] font-medium rounded shadow-md opacity-0 group-hover/profile:opacity-100 pointer-events-none z-50 whitespace-nowrap transition-opacity">
+                  <div className="font-bold">{userAccess?.full_name || 'Mohammad Anayet'}</div>
+                  <div className="text-[9px] text-gray-300 capitalize">{role}</div>
+                </div>
               </div>
 
-              {!isCollapsed && (
-                <button
-                  onClick={handleLogout}
-                  className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
-                  title="Sign Out"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              )}
+              <button
+                onClick={() => setShowLogoutModal(true)}
+                className="p-2.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer group relative"
+                title="Log Out"
+              >
+                <LogOut className="w-4 h-4" />
+                <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-gray-900 text-white text-[11px] font-medium rounded shadow-md opacity-0 group-hover:opacity-100 pointer-events-none z-50 whitespace-nowrap transition-opacity">
+                  Log Out
+                </div>
+              </button>
             </div>
           </div>
         </aside>
@@ -320,13 +398,10 @@ export default function Layout() {
               </button>
 
               <div className="flex flex-col">
-                <div className="text-[11px] text-gray-400 font-medium tracking-tight">
-                  {headerDetails.breadcrumb}
-                </div>
-                <h1 className="text-lg sm:text-xl font-semibold text-[#173F3A] leading-tight">
+                <h1 className="text-lg sm:text-xl font-bold text-[#173F3A] leading-tight">
                   {headerDetails.title}
                 </h1>
-                <p className="text-[11px] text-gray-500 hidden sm:block">
+                <p className="text-[11px] text-gray-500 hidden sm:block mt-0.5">
                   {headerDetails.description}
                 </p>
               </div>
@@ -334,38 +409,14 @@ export default function Layout() {
 
             {/* Header Right Actions & Profile Menu */}
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                className="p-2 text-gray-500 hover:text-[#23796F] hover:bg-[#F5F8F7] rounded-lg transition-colors relative"
-                title="Notifications"
-              >
-                <Bell className="w-4 h-4" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-teal-600"></span>
-              </button>
-
-              <button
-                type="button"
-                className="p-2 text-gray-500 hover:text-[#23796F] hover:bg-[#F5F8F7] rounded-lg transition-colors hidden sm:block"
-                title="Help & Support"
-              >
-                <HelpCircle className="w-4 h-4" />
-              </button>
-
-              <div className="h-6 w-px bg-gray-200 hidden sm:block" />
-
-              {/* User Avatar Menu Dropdown */}
+              {/* User Avatar Menu Dropdown (Clean, minimal as requested) */}
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-[#F5F8F7] transition-colors"
+                  className="w-8 h-8 rounded-full bg-[#173F3A] text-white text-xs font-bold flex items-center justify-center border border-teal-600 hover:scale-105 active:scale-95 transition-all duration-200 shadow-2xs"
+                  title="Profile Menu"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#173F3A] text-white text-xs font-bold flex items-center justify-center">
-                    {userAccess?.full_name?.charAt(0) || 'U'}
-                  </div>
-                  <span className="text-xs font-bold text-[#173F3A] hidden sm:inline">
-                    {userAccess?.full_name || 'User'}
-                  </span>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-500 hidden sm:inline" />
+                  {userAccess?.full_name?.charAt(0) || 'U'}
                 </button>
 
                 {userMenuOpen && (
@@ -403,7 +454,10 @@ export default function Layout() {
                       )}
 
                       <button
-                        onClick={handleLogout}
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          setShowLogoutModal(true);
+                        }}
                         className="w-full text-left flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 font-semibold"
                       >
                         <LogOut className="w-4 h-4" /> Sign Out
@@ -415,12 +469,54 @@ export default function Layout() {
             </div>
           </header>
 
-          {/* Main Outlet */}
-          <main className="flex-1 overflow-y-auto">
+          {/* Main Outlet (Strictly isolated scrolling view) */}
+          <main className="flex-1 overflow-y-auto min-w-0 bg-[#F5F8F7]">
             <Outlet />
           </main>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-gray-900/60 backdrop-blur-xs transition-opacity"
+            onClick={() => setShowLogoutModal(false)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-[#D5E2DF] text-center animate-in fade-in zoom-in-95 duration-200">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600 mb-4 border border-red-100">
+              <LogOut className="h-6 w-6" />
+            </div>
+            
+            <h3 className="text-base font-bold text-[#173F3A] mb-1">
+              Are you sure you want to log out?
+            </h3>
+            <p className="text-xs text-gray-500 mb-6 px-2 leading-relaxed">
+              You will need to sign in with your account credentials again to access the Executive Home workspace.
+            </p>
+            
+            <div className="flex gap-3 justify-center">
+              <button
+                type="button"
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 py-2.5 px-4 text-xs font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors border border-transparent cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex-1 py-2.5 px-4 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors shadow-xs cursor-pointer"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -110,21 +110,16 @@ export default function Settings() {
       )}
 
       {/* Page Header */}
-      <div className="pb-2 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#173F3A]">Settings</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage application preferences, member access and security.</p>
-        </div>
-
-        {activeSection !== 'overview' && (
+      {activeSection !== 'overview' && (
+        <div className="pb-2 border-b border-gray-200 flex justify-end">
           <button
             onClick={() => setActiveSection('overview')}
-            className="text-xs font-semibold text-[#23796F] hover:underline flex items-center gap-1 self-start sm:self-auto"
+            className="text-xs font-semibold text-[#23796F] hover:underline flex items-center gap-1"
           >
             ← Back to Settings Hub
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* LANDING VIEW: 3 SIMPLE CARDS */}
       {activeSection === 'overview' && (

@@ -53,10 +53,6 @@ export default function History() {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F8F7]">
-      <header className="h-16 shrink-0 flex items-center justify-between px-4 sm:px-8 bg-white border-b border-[#D5E2DF]">
-        <h1 className="text-xl font-semibold text-[#173F3A]">Payment History</h1>
-      </header>
-
       <ReceiptModal
         isOpen={isReceiptOpen}
         onClose={() => setIsReceiptOpen(false)}
