@@ -3,17 +3,17 @@ import { Database, AlertCircle } from 'lucide-react';
 
 export default function SetupRequired() {
   return (
-    <div className="min-h-screen bg-[#F5F8F7] flex flex-col items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-sm border border-[#D5E2DF] p-8 text-center">
+    <div className="min-h-screen bg-[#F5F8F7] dark:bg-dark-canvas flex flex-col items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-[#D5E2DF] dark:border-dark-border p-8 text-center">
         <div className="mx-auto w-16 h-16 bg-[#23796F]/10 rounded-full flex items-center justify-center mb-6">
-          <Database className="w-8 h-8 text-[#23796F]" />
+          <Database className="w-8 h-8 text-[#23796F] dark:text-dark-teal" />
         </div>
         
-        <h1 className="text-2xl font-bold text-[#173F3A] mb-4">
+        <h1 className="text-2xl font-bold text-[#173F3A] dark:text-dark-text-primary mb-4">
           Supabase Connection Required
         </h1>
         
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 dark:text-dark-text-secondary mb-6">
           The Executive Home Management System requires a Supabase database to function.
         </p>
         
@@ -36,7 +36,7 @@ export default function SetupRequired() {
           </div>
         </div>
         
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-dark-text-secondary">
           The application will automatically reload once the environment variables are configured.
         </p>
       </div>

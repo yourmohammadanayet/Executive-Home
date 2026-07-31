@@ -111,20 +111,20 @@ export default function GenerateBillsModal({ isOpen, onClose, onSuccess }: Gener
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/80 p-4 overflow-y-auto">
-      <div className="relative w-full max-w-md rounded-xl bg-white shadow-xl">
-        <div className="flex items-center justify-between border-b border-[#D5E2DF] px-6 py-4">
+      <div className="relative w-full max-w-md rounded-xl bg-white dark:bg-dark-surface shadow-xl">
+        <div className="flex items-center justify-between border-b border-[#D5E2DF] dark:border-dark-border px-6 py-4">
           <div className="flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-[#23796F]" />
-            <h2 className="text-lg font-semibold text-gray-900">Generate Monthly Bills</h2>
+            <Calendar className="h-5 w-5 text-[#23796F] dark:text-dark-teal" />
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary">Generate Monthly Bills</h2>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
+          <button onClick={onClose} className="text-gray-400 dark:text-dark-text-muted hover:text-gray-500 dark:text-dark-text-secondary">
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <form onSubmit={handleGenerate} className="p-6 space-y-4">
           {error && (
-            <div className="rounded-md bg-red-50 p-3 text-xs text-red-700 border border-red-200">
+            <div className="rounded-md bg-red-50 dark:bg-dark-red/10 p-3 text-xs text-red-700 border border-red-200 dark:border-red-800">
               {error}
             </div>
           )}
@@ -135,7 +135,7 @@ export default function GenerateBillsModal({ isOpen, onClose, onSuccess }: Gener
           )}
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide">
+            <label className="block text-xs font-semibold text-gray-700 dark:text-dark-text-secondary uppercase tracking-wide">
               Billing Month
             </label>
             <input
@@ -143,12 +143,12 @@ export default function GenerateBillsModal({ isOpen, onClose, onSuccess }: Gener
               required
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="mt-1 block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#23796F] text-sm outline-none"
+              className="mt-1 block w-full rounded-md border-0 py-2 px-3 text-gray-900 dark:text-dark-text-primary shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong focus:ring-2 focus:ring-[#23796F] dark:focus:ring-dark-teal text-sm outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide">
+            <label className="block text-xs font-semibold text-gray-700 dark:text-dark-text-secondary uppercase tracking-wide">
               Due Date (Day of Month)
             </label>
             <input
@@ -158,9 +158,9 @@ export default function GenerateBillsModal({ isOpen, onClose, onSuccess }: Gener
               max="28"
               value={dueDateDay}
               onChange={(e) => setDueDateDay(Number(e.target.value))}
-              className="mt-1 block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#23796F] text-sm outline-none"
+              className="mt-1 block w-full rounded-md border-0 py-2 px-3 text-gray-900 dark:text-dark-text-primary shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong focus:ring-2 focus:ring-[#23796F] dark:focus:ring-dark-teal text-sm outline-none"
             />
-            <p className="mt-1 text-[10px] text-gray-500">
+            <p className="mt-1 text-[10px] text-gray-500 dark:text-dark-text-secondary">
               Default is 10th of every month.
             </p>
           </div>
@@ -169,18 +169,18 @@ export default function GenerateBillsModal({ isOpen, onClose, onSuccess }: Gener
             This action generates monthly rent bills for all active members based on their assigned base monthly rent.
           </div>
 
-          <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-[#D5E2DF]">
+          <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-[#D5E2DF] dark:border-dark-border">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md bg-white px-4 py-2 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              className="rounded-md bg-white dark:bg-dark-surface px-4 py-2 text-xs font-semibold text-gray-700 dark:text-dark-text-secondary shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong hover:bg-gray-50 dark:hover:bg-dark-hover dark:bg-dark-canvas/50 dark:hover:bg-dark-hover/50 dark:bg-dark-surface/50 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex justify-center rounded-md bg-[#23796F] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#173F3A] disabled:opacity-70 items-center"
+              className="inline-flex justify-center rounded-md bg-[#23796F] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#173F3A] disabled:opacity-70 items-center outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Generate Bills

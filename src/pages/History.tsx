@@ -52,7 +52,7 @@ export default function History() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#F5F8F7]">
+    <div className="flex flex-col h-full bg-[#F5F8F7] dark:bg-dark-canvas">
       <ReceiptModal
         isOpen={isReceiptOpen}
         onClose={() => setIsReceiptOpen(false)}
@@ -60,26 +60,26 @@ export default function History() {
       />
 
       <div className="flex-1 p-4 sm:p-8 space-y-6 overflow-y-auto">
-        <div className="flex items-center justify-between bg-white p-4 rounded-xl border border-[#D5E2DF] shadow-sm">
+        <div className="flex items-center justify-between bg-white dark:bg-dark-surface p-4 rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm">
           <div className="relative w-full max-w-sm">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <Search className="h-4 w-4 text-gray-400" aria-hidden="true" />
+              <Search className="h-4 w-4 text-gray-400 dark:text-dark-text-muted" aria-hidden="true" />
             </div>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="block w-full rounded-md border-0 py-2 pl-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#23796F] sm:text-sm sm:leading-6 outline-none"
+              className="block w-full rounded-md border-0 py-2 pl-10 text-gray-900 dark:text-dark-text-primary shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong focus:ring-2 focus:ring-inset focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm sm:leading-6 outline-none"
               placeholder="Search receipt, member, or TRX ID..."
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-[#D5E2DF] shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-dark-surface rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50 text-[11px] uppercase text-gray-500 border-b border-[#D5E2DF]">
+                <tr className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 text-[11px] uppercase text-gray-500 dark:text-dark-text-secondary border-b border-[#D5E2DF] dark:border-dark-border">
                   <th scope="col" className="px-6 py-3 font-semibold">Receipt #</th>
                   <th scope="col" className="px-4 py-3 font-semibold">Date</th>
                   <th scope="col" className="px-4 py-3 font-semibold">Member</th>
@@ -89,39 +89,39 @@ export default function History() {
                   <th scope="col" className="relative px-4 py-3 sm:pr-6"><span className="sr-only">Actions</span></th>
                 </tr>
               </thead>
-              <tbody className="text-sm divide-y divide-[#D5E2DF]">
+              <tbody className="text-sm divide-y divide-[#D5E2DF] dark:divide-dark-border">
                 {loading ? (
                   <tr>
                     <td colSpan={7} className="py-10 text-center">
-                      <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#23796F]"></div>
+                      <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#23796F] dark:border-emerald-500"></div>
                     </td>
                   </tr>
                 ) : filteredPayments.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-10 text-center text-sm text-gray-500">
+                    <td colSpan={7} className="py-10 text-center text-sm text-gray-500 dark:text-dark-text-secondary">
                       No payments found.
                     </td>
                   </tr>
                 ) : (
                   filteredPayments.map((payment) => (
-                    <tr key={payment.id} className="hover:bg-gray-50/50">
-                      <td className="px-6 py-3 font-medium text-[#173F3A] text-xs">
+                    <tr key={payment.id} className="hover:bg-gray-50/50 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas">
+                      <td className="px-6 py-3 font-medium text-[#173F3A] dark:text-dark-text-primary text-xs">
                         {payment.receipt_number}
                       </td>
-                      <td className="px-4 py-3 text-xs text-gray-500">
+                      <td className="px-4 py-3 text-xs text-gray-500 dark:text-dark-text-secondary">
                         {safeFormatDate(payment.payment_date, 'MMM dd, yyyy')}
                       </td>
-                      <td className="px-4 py-3 text-xs font-medium text-[#173F3A]">
+                      <td className="px-4 py-3 text-xs font-medium text-[#173F3A] dark:text-dark-text-primary">
                         {payment.member?.full_name}
                       </td>
-                      <td className="px-4 py-3 text-xs text-gray-500 uppercase tracking-wide">
+                      <td className="px-4 py-3 text-xs text-gray-500 dark:text-dark-text-secondary uppercase tracking-wide">
                         {payment.payment_type}
                       </td>
-                      <td className="px-4 py-3 text-xs text-gray-500">
+                      <td className="px-4 py-3 text-xs text-gray-500 dark:text-dark-text-secondary">
                         <div className="flex flex-col">
                           <span>{payment.payment_method}</span>
                           {payment.transaction_id && (
-                            <span className="text-[10px] text-gray-400 font-mono mt-0.5">TRX: {payment.transaction_id}</span>
+                            <span className="text-[10px] text-gray-400 dark:text-dark-text-muted font-mono mt-0.5">TRX: {payment.transaction_id}</span>
                           )}
                         </div>
                       </td>
@@ -131,7 +131,7 @@ export default function History() {
                       <td className="relative px-4 py-3 text-right text-xs font-bold uppercase tracking-widest sm:pr-6">
                         <button 
                           onClick={() => handleViewReceipt(payment)}
-                          className="text-[#23796F] hover:text-[#173F3A] flex items-center justify-end gap-1 w-full transition-colors"
+                          className="text-[#23796F] dark:text-dark-teal hover:text-[#173F3A] dark:hover:text-dark-text-primary dark:text-dark-text-primary flex items-center justify-end gap-1 w-full transition-colors"
                         >
                           <Download className="w-3.5 h-3.5" /> Receipt
                         </button>

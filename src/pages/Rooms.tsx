@@ -53,19 +53,19 @@ export default function Rooms() {
   );
 
   const statusColors = {
-    'Occupied': 'bg-gray-100 text-gray-800 border-gray-300',
+    'Occupied': 'bg-gray-100 dark:bg-dark-raised text-gray-800 dark:text-dark-text-primary border-gray-300 dark:border-dark-border-strong',
     'Partially Occupied': 'bg-blue-50 text-blue-800 border-blue-200',
     'Available': 'bg-green-50 text-green-800 border-green-200',
-    'Maintenance': 'bg-red-50 text-red-800 border-red-200',
+    'Maintenance': 'bg-red-50 dark:bg-dark-red/10 text-red-800 border-red-200 dark:border-red-800',
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#F5F8F7]">
+    <div className="flex flex-col h-full bg-[#F5F8F7] dark:bg-dark-canvas">
       {isAdmin && (
-        <header className="h-14 shrink-0 flex items-center justify-end px-4 sm:px-8 bg-white border-b border-[#D5E2DF]">
+        <header className="h-14 shrink-0 flex items-center justify-end px-4 sm:px-8 bg-white dark:bg-dark-surface border-b border-[#D5E2DF] dark:border-dark-border">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2 bg-[#23796F] text-white text-xs font-bold rounded-lg hover:bg-[#173F3A] transition-colors uppercase tracking-widest shadow-sm"
+            className="px-4 py-2 bg-[#23796F] text-white text-xs font-bold rounded-lg hover:bg-[#173F3A] transition-colors uppercase tracking-widest shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
           >
             Add Room
           </button>
@@ -85,10 +85,10 @@ export default function Rooms() {
       />
 
       <div className="flex-1 p-4 sm:p-8 space-y-6 overflow-y-auto">
-        <div className="flex items-center justify-between bg-white p-4 rounded-xl border border-[#D5E2DF] shadow-sm">
+        <div className="flex items-center justify-between bg-white dark:bg-dark-surface p-4 rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm">
           <div className="relative w-full max-w-sm">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <Search className="h-4 w-4 text-gray-400" aria-hidden="true" />
+              <Search className="h-4 w-4 text-gray-400 dark:text-dark-text-muted" aria-hidden="true" />
             </div>
             <input
               type="text"
@@ -96,7 +96,7 @@ export default function Rooms() {
               id="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="block w-full rounded-md border-0 py-2 pl-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#23796F] sm:text-sm sm:leading-6 outline-none"
+              className="block w-full rounded-md border-0 py-2 pl-10 text-gray-900 dark:text-dark-text-primary shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong focus:ring-2 focus:ring-inset focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm sm:leading-6 outline-none"
               placeholder="Search by room name or type..."
             />
           </div>
@@ -105,10 +105,10 @@ export default function Rooms() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {loading ? (
             <div className="col-span-full py-12 flex justify-center">
-              <div className="inline-block animate-spin rounded-full h-7 w-7 border-b-2 border-[#23796F]"></div>
+              <div className="inline-block animate-spin rounded-full h-7 w-7 border-b-2 border-[#23796F] dark:border-emerald-500"></div>
             </div>
           ) : filteredRooms.length === 0 ? (
-            <div className="col-span-full py-10 text-center text-sm text-gray-500">
+            <div className="col-span-full py-10 text-center text-sm text-gray-500 dark:text-dark-text-secondary">
               No rooms found.
             </div>
           ) : (
@@ -118,36 +118,36 @@ export default function Rooms() {
               return (
                 <div 
                   key={room.id} 
-                  className="overflow-hidden rounded-xl bg-white shadow-sm border border-[#D5E2DF] flex flex-col hover:shadow-md transition-all group"
+                  className="overflow-hidden rounded-xl bg-white dark:bg-dark-surface shadow-sm border border-[#D5E2DF] dark:border-dark-border flex flex-col hover:shadow-md transition-all group"
                 >
                   <div className="p-5 flex-1 space-y-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2.5">
-                        <div className="h-9 w-9 rounded-xl bg-[#F5F8F7] text-[#23796F] flex items-center justify-center border border-[#D5E2DF] shrink-0">
+                        <div className="h-9 w-9 rounded-xl bg-[#F5F8F7] dark:bg-dark-canvas text-[#23796F] dark:text-dark-teal flex items-center justify-center border border-[#D5E2DF] dark:border-dark-border shrink-0">
                           <DoorClosed className="h-5 w-5" />
                         </div>
                         <div>
-                          <h3 className="text-sm font-bold text-[#173F3A] group-hover:text-[#23796F] transition-colors">
+                          <h3 className="text-sm font-bold text-[#173F3A] dark:text-dark-text-primary group-hover:text-[#23796F] dark:hover:text-dark-teal dark:text-dark-teal transition-colors">
                             {room.name}
                           </h3>
-                          <p className="text-[11px] text-gray-500 font-medium">{room.type}</p>
+                          <p className="text-[11px] text-gray-500 dark:text-dark-text-secondary font-medium">{room.type}</p>
                         </div>
                       </div>
                       <span className={clsx(
                         'inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border shrink-0',
-                        statusColors[room.status] || 'bg-gray-100 text-gray-800'
+                        statusColors[room.status] || 'bg-gray-100 dark:bg-dark-raised text-gray-800 dark:text-dark-text-primary'
                       )}>
                         {room.status}
                       </span>
                     </div>
 
                     {/* OCCUPANTS PREVIEW BOX */}
-                    <div className="bg-[#F5F8F7] p-3 rounded-lg border border-[#D5E2DF] space-y-2">
+                    <div className="bg-[#F5F8F7] dark:bg-dark-canvas p-3 rounded-lg border border-[#D5E2DF] dark:border-dark-border space-y-2">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-extrabold text-[#173F3A] flex items-center gap-1">
-                          <Users className="w-3.5 h-3.5 text-[#23796F]" /> Occupants ({roomOccupants.length}/{room.capacity})
+                        <span className="font-extrabold text-[#173F3A] dark:text-dark-text-primary flex items-center gap-1">
+                          <Users className="w-3.5 h-3.5 text-[#23796F] dark:text-dark-teal" /> Occupants ({roomOccupants.length}/{room.capacity})
                         </span>
-                        <span className="text-[10px] text-gray-500 font-semibold">
+                        <span className="text-[10px] text-gray-500 dark:text-dark-text-secondary font-semibold">
                           {room.capacity - roomOccupants.length > 0 
                             ? `${room.capacity - roomOccupants.length} Vacant` 
                             : 'Full'}
@@ -155,17 +155,17 @@ export default function Rooms() {
                       </div>
 
                       {roomOccupants.length === 0 ? (
-                        <p className="text-[11px] text-gray-400 italic">No members currently assigned</p>
+                        <p className="text-[11px] text-gray-400 dark:text-dark-text-muted italic">No members currently assigned</p>
                       ) : (
                         <div className="space-y-1">
                           {roomOccupants.slice(0, 3).map((m) => (
-                            <div key={m.id} className="text-xs font-semibold text-gray-800 flex items-center justify-between">
+                            <div key={m.id} className="text-xs font-semibold text-gray-800 dark:text-dark-text-primary flex items-center justify-between">
                               <span className="truncate">• {m.full_name}</span>
                               <span className="text-[10px] text-teal-800 shrink-0 font-bold">৳{m.base_monthly_rent?.toLocaleString()}</span>
                             </div>
                           ))}
                           {roomOccupants.length > 3 && (
-                            <p className="text-[10px] font-bold text-[#23796F]">+{roomOccupants.length - 3} more member(s)...</p>
+                            <p className="text-[10px] font-bold text-[#23796F] dark:text-dark-teal">+{roomOccupants.length - 3} more member(s)...</p>
                           )}
                         </div>
                       )}
@@ -173,11 +173,11 @@ export default function Rooms() {
                   </div>
 
                   {/* BOTTOM ACTION BUTTON */}
-                  <div className="p-3 bg-gray-50 border-t border-[#D5E2DF]">
+                  <div className="p-3 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 border-t border-[#D5E2DF] dark:border-dark-border">
                     <button
                       type="button"
                       onClick={() => setSelectedRoom(room)}
-                      className="w-full py-2 px-3 bg-[#173F3A] hover:bg-[#23796F] text-white text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                      className="w-full py-2 px-3 bg-[#173F3A] hover:bg-[#23796F] text-white text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                     >
                       <Eye className="w-3.5 h-3.5" /> View Occupants & Details <ChevronRight className="w-3.5 h-3.5" />
                     </button>

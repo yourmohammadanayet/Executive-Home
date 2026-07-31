@@ -493,6 +493,15 @@ export const seedDatabase = async (forceReset = false) => {
     }
   }
 
+  if (forceReset) {
+    setLocalData('eh_payments', []);
+    setLocalData('eh_documents', []);
+    localStorage.removeItem('eh_profile_requests_v1');
+    localStorage.removeItem('eh_audit_logs_v1');
+    localStorage.removeItem('eh_user_access_records_v1');
+    localStorage.removeItem('eh_data_migration_v2_done');
+  }
+
   // Update localStorage cache
   setLocalData('eh_rooms', updatedRooms);
   setLocalData('eh_members', updatedMembers);
@@ -632,13 +641,7 @@ export const fetchDashboardOverview = async (selectedMonth = '2026-08'): Promise
     return p.payment_date.startsWith(selectedMonth);
   });
 
-  let total_collected = monthPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
-
-  // Default demo state for August 2026 if no payments have been added yet
-  if (selectedMonth === '2026-08' && monthPayments.length === 0) {
-    total_collected = 18500;
-  }
-
+  const total_collected = monthPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
   const total_due = Math.max(0, monthly_payable - total_collected);
   const collection_percentage = monthly_payable > 0 ? Math.round((total_collected / monthly_payable) * 100) : 0;
 
@@ -654,39 +657,59 @@ export const fetchDashboardOverview = async (selectedMonth = '2026-08'): Promise
     }
   });
 
-  // Members Needing Attention (Max 5)
-  // Default benchmark list for August 2026
-  const defaultAttentionList = [
-    {
-      id: 'mem-7',
-      member_code: 'EH-007',
-      full_name: 'Mohammad Anayet',
-      room_name: 'Single Room',
-      due_amount: 3900,
-      due_date: '10 Aug 2026',
-      status: 'Overdue' as const,
-    },
-    {
-      id: 'mem-4',
-      member_code: 'EH-004',
-      full_name: 'Salah Uddin',
-      room_name: 'Master Bedroom',
-      due_amount: 1500,
-      due_date: '10 Aug 2026',
-      status: 'Partial' as const,
-    },
-    {
-      id: 'mem-8',
-      member_code: 'EH-008',
-      full_name: 'Nayeem',
-      room_name: 'Without Door Room',
-      due_amount: 2000,
-      due_date: '10 Aug 2026',
-      status: 'Due' as const,
-    },
-  ];
+  const monthBills = bills.filter((b) => b.billing_month && b.billing_month.startsWith(selectedMonth));
 
-  let members_needing_attention = defaultAttentionList;
+  let paid_member_count = 0;
+  let partial_member_count = 0;
+  let due_member_count = 0;
+  let overdue_member_count = 0;
+  let members_needing_attention: any[] = [];
+
+  const [yearNum, monthNum] = selectedMonth.split('-').map(Number);
+  const monthDate = new Date(yearNum || 2026, (monthNum || 8) - 1, 1);
+  const monthLabel = !isNaN(monthDate.getTime())
+    ? monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+    : 'August 2026';
+
+  if (monthBills.length > 0) {
+    monthBills.forEach((b) => {
+      if (b.status === 'Paid') {
+        paid_member_count++;
+      } else if (b.status === 'Partial') {
+        partial_member_count++;
+      } else if (b.status === 'Due') {
+        due_member_count++;
+      } else if (b.status === 'Overdue') {
+        overdue_member_count++;
+      }
+    });
+
+    const unpaidBills = monthBills.filter((b) => (b.due_amount || 0) > 0);
+    members_needing_attention = unpaidBills.map((b) => ({
+      id: b.member_id,
+      member_code: b.member?.member_code || '',
+      full_name: b.member?.full_name || '',
+      room_name: b.member?.room?.name || 'Assigned Room',
+      due_amount: b.due_amount,
+      due_date: b.due_date ? new Date(b.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : `10 ${monthLabel.substring(0, 3)} 2026`,
+      status: (b.status === 'Overdue' || b.status === 'Due' || b.status === 'Partial') ? b.status : 'Due',
+    }));
+  } else {
+    // If no bills generated yet, treat all active approved members as "Due" for this billing cycle
+    due_member_count = active_member_count;
+    members_needing_attention = activeMembers.map((m) => ({
+      id: m.id,
+      member_code: m.member_code,
+      full_name: m.full_name,
+      room_name: m.room?.name || 'Assigned Room',
+      due_amount: m.base_monthly_rent,
+      due_date: `10 ${monthLabel.substring(0, 3)} 2026`,
+      status: 'Due' as const,
+    }));
+  }
+
+  // Slice to max 5 attention items
+  members_needing_attention = members_needing_attention.slice(0, 5);
 
   // Recent 5 completed payments
   const recent_payments = payments.slice(0, 5);
@@ -700,30 +723,26 @@ export const fetchDashboardOverview = async (selectedMonth = '2026-08'): Promise
     { key: '2026-12', label: 'Dec 2026' },
   ];
 
-  const monthly_payment_trend = monthNames.map((m) => {
-    if (m.key === selectedMonth) {
-      return {
-        month: m.key,
-        month_label: m.label,
-        payable: monthly_payable,
-        paid: total_collected,
-        due: total_due,
-      };
-    }
+  const monthly_payment_trend = monthNames.map((mName) => {
+    // Filter bills and payments for this month
+    const trendBills = bills.filter((b) => b.billing_month && b.billing_month.startsWith(mName.key));
+    const trendPayments = payments.filter((p) => p.payment_date && p.payment_date.startsWith(mName.key));
+
+    const payable = trendBills.length > 0 
+      ? trendBills.reduce((sum, b) => sum + (b.total_payable || 0), 0)
+      : activeMembers.reduce((sum, m) => sum + (m.base_monthly_rent || 0), 0);
+
+    const paid = trendPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
+    const due = Math.max(0, payable - paid);
+
     return {
-      month: m.key,
-      month_label: m.label,
-      payable: monthly_payable,
-      paid: m.key < selectedMonth ? monthly_payable : 0,
-      due: m.key < selectedMonth ? 0 : monthly_payable,
+      month: mName.key,
+      month_label: mName.label,
+      payable,
+      paid,
+      due,
     };
   });
-
-  const [yearNum, monthNum] = selectedMonth.split('-').map(Number);
-  const monthDate = new Date(yearNum || 2026, (monthNum || 8) - 1, 1);
-  const monthLabel = !isNaN(monthDate.getTime())
-    ? monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-    : 'August 2026';
 
   return {
     selected_month: selectedMonth,
@@ -737,10 +756,10 @@ export const fetchDashboardOverview = async (selectedMonth = '2026-08'): Promise
     total_collected,
     total_due,
     collection_percentage,
-    paid_member_count: 5,
-    partial_member_count: 1,
-    due_member_count: 3,
-    overdue_member_count: 1,
+    paid_member_count,
+    partial_member_count,
+    due_member_count,
+    overdue_member_count,
     pending_joining_charge_count,
     pending_joining_charge_total,
     recent_payments,
@@ -750,4 +769,15 @@ export const fetchDashboardOverview = async (selectedMonth = '2026-08'): Promise
 };
 
 // Automatically run seed at app startup to ensure 9 members & 4 rooms exist instantly
-seedDatabase();
+// Performs a one-time force reset to ensure all paid amounts are 0 and data is clean
+const RUN_ONE_TIME_RESET_KEY = 'eh_force_reset_zero_paid_v3';
+try {
+  if (localStorage.getItem(RUN_ONE_TIME_RESET_KEY) !== 'true') {
+    seedDatabase(true);
+    localStorage.setItem(RUN_ONE_TIME_RESET_KEY, 'true');
+  } else {
+    seedDatabase();
+  }
+} catch (e) {
+  seedDatabase();
+}

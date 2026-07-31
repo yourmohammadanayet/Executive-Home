@@ -453,27 +453,39 @@ export default function UserAccess() {
     showToast('success', `Login access and user account removed for ${targetName}.`);
   };
 
+  const handleApproveRequest = (id: string) => {
+    updateProfileRequestStatus(id, 'Approved', userAccess?.full_name || 'Mohammad Anayet (Admin)');
+    showToast('success', 'Profile update request has been approved and applied.');
+    loadData();
+  };
+
+  const handleRejectRequest = (id: string) => {
+    updateProfileRequestStatus(id, 'Rejected', userAccess?.full_name || 'Mohammad Anayet (Admin)');
+    showToast('success', 'Profile update request has been rejected.');
+    loadData();
+  };
+
   return (
     <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6">
       {/* Toast Notification */}
       {toast && (
         <div className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 text-sm font-semibold border ${
           toast.type === 'success' 
-            ? 'bg-emerald-50 text-emerald-900 border-emerald-200' 
+            ? 'bg-emerald-50 dark:bg-dark-teal/10 text-emerald-900 border-emerald-200' 
             : 'bg-rose-50 text-rose-900 border-rose-200'
         }`}>
           {toast.type === 'success' ? <Check className="w-5 h-5 text-emerald-600" /> : <AlertTriangle className="w-5 h-5 text-rose-600" />}
           <span>{toast.message}</span>
-          <button onClick={() => setToast(null)} className="ml-auto text-gray-400 hover:text-gray-600">
+          <button onClick={() => setToast(null)} className="ml-auto text-gray-400 dark:text-dark-text-muted hover:text-gray-600 dark:hover:text-dark-text-secondary dark:text-dark-text-secondary">
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
 
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#D5E2DF]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#D5E2DF] dark:border-dark-border">
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-teal-50 text-[#23796F] border border-teal-200">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-teal-50 dark:bg-dark-teal/10 text-[#23796F] dark:text-dark-teal border border-teal-200">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             RBAC Guard Active
           </span>
@@ -495,7 +507,7 @@ export default function UserAccess() {
 
           <button
             onClick={() => navigate('/members')}
-            className="px-4 py-2 bg-[#23796F] hover:bg-[#1C635B] text-white font-bold text-xs rounded-xl flex items-center gap-2 transition-all shadow-2xs hover:shadow-xs active:scale-[0.99]"
+            className="px-4 py-2 bg-[#23796F] hover:bg-[#1C635B] text-white font-bold text-xs rounded-xl flex items-center gap-2 transition-all shadow-2xs hover:shadow-xs active:scale-[0.99] outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
           >
             <Plus className="w-4 h-4" />
             <span>Add Member</span>
@@ -506,37 +518,37 @@ export default function UserAccess() {
       {/* Professional 4 Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Members */}
-        <div className="group bg-gradient-to-br from-white via-white to-teal-50/30 p-4 rounded-2xl border border-[#D5E2DF] shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
+        <div className="group bg-gradient-to-br from-white via-white to-teal-50/30 p-4 rounded-2xl border border-[#D5E2DF] dark:border-dark-border shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Total Members</p>
-              <p className="text-2xl font-black text-[#173F3A] mt-1 tracking-tight">{totalMembers}</p>
+              <p className="text-[11px] font-bold text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Total Members</p>
+              <p className="text-2xl font-black text-[#173F3A] dark:text-dark-text-primary mt-1 tracking-tight">{totalMembers}</p>
             </div>
-            <div className="w-11 h-11 rounded-xl bg-teal-500/10 text-[#23796F] border border-teal-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="w-11 h-11 rounded-xl bg-teal-500/10 text-[#23796F] dark:text-dark-teal border border-teal-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
               <Users className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-gray-100/80 flex items-center justify-between text-[11px]">
-            <span className="text-gray-400 font-medium">System Directory</span>
-            <span className="text-[#23796F] font-bold bg-teal-50 px-1.5 py-0.5 rounded text-[10px]">100%</span>
+          <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-dark-border/80 flex items-center justify-between text-[11px]">
+            <span className="text-gray-400 dark:text-dark-text-muted font-medium">System Directory</span>
+            <span className="text-[#23796F] dark:text-dark-teal font-bold bg-teal-50 dark:bg-dark-teal/10 px-1.5 py-0.5 rounded text-[10px]">100%</span>
           </div>
           <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#23796F] to-teal-400 opacity-80"></div>
         </div>
 
         {/* Login Enabled */}
-        <div className="group bg-gradient-to-br from-white via-white to-emerald-50/30 p-4 rounded-2xl border border-[#D5E2DF] shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
+        <div className="group bg-gradient-to-br from-white via-white to-emerald-50/30 p-4 rounded-2xl border border-[#D5E2DF] dark:border-dark-border shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Login Enabled</p>
+              <p className="text-[11px] font-bold text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Login Enabled</p>
               <p className="text-2xl font-black text-emerald-800 mt-1 tracking-tight">{loginEnabledCount}</p>
             </div>
             <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
               <UserCheck className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-gray-100/80 flex items-center justify-between text-[11px]">
-            <span className="text-gray-400 font-medium">Active Portal Access</span>
-            <span className="text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded text-[10px]">
+          <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-dark-border/80 flex items-center justify-between text-[11px]">
+            <span className="text-gray-400 dark:text-dark-text-muted font-medium">Active Portal Access</span>
+            <span className="text-emerald-700 font-bold bg-emerald-50 dark:bg-dark-teal/10 px-1.5 py-0.5 rounded text-[10px]">
               {((loginEnabledCount / (totalMembers || 1)) * 100).toFixed(0)}%
             </span>
           </div>
@@ -544,19 +556,19 @@ export default function UserAccess() {
         </div>
 
         {/* Not Invited */}
-        <div className="group bg-gradient-to-br from-white via-white to-slate-50/60 p-4 rounded-2xl border border-[#D5E2DF] shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
+        <div className="group bg-gradient-to-br from-white via-white to-slate-50/60 p-4 rounded-2xl border border-[#D5E2DF] dark:border-dark-border shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Not Invited</p>
-              <p className="text-2xl font-black text-gray-800 mt-1 tracking-tight">{notInvitedCount}</p>
+              <p className="text-[11px] font-bold text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Not Invited</p>
+              <p className="text-2xl font-black text-gray-800 dark:text-dark-text-primary mt-1 tracking-tight">{notInvitedCount}</p>
             </div>
-            <div className="w-11 h-11 rounded-xl bg-gray-500/10 text-gray-600 border border-gray-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="w-11 h-11 rounded-xl bg-gray-500/10 text-gray-600 dark:text-dark-text-secondary border border-gray-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
               <Mail className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-gray-100/80 flex items-center justify-between text-[11px]">
-            <span className="text-gray-400 font-medium">Pending Onboarding</span>
-            <span className="text-gray-600 font-bold bg-gray-100 px-1.5 py-0.5 rounded text-[10px]">
+          <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-dark-border/80 flex items-center justify-between text-[11px]">
+            <span className="text-gray-400 dark:text-dark-text-muted font-medium">Pending Onboarding</span>
+            <span className="text-gray-600 dark:text-dark-text-secondary font-bold bg-gray-100 dark:bg-dark-raised px-1.5 py-0.5 rounded text-[10px]">
               {((notInvitedCount / (totalMembers || 1)) * 100).toFixed(0)}%
             </span>
           </div>
@@ -564,18 +576,18 @@ export default function UserAccess() {
         </div>
 
         {/* Blocked */}
-        <div className="group bg-gradient-to-br from-white via-white to-rose-50/30 p-4 rounded-2xl border border-[#D5E2DF] shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
+        <div className="group bg-gradient-to-br from-white via-white to-rose-50/30 p-4 rounded-2xl border border-[#D5E2DF] dark:border-dark-border shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Blocked Access</p>
+              <p className="text-[11px] font-bold text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Blocked Access</p>
               <p className="text-2xl font-black text-rose-800 mt-1 tracking-tight">{blockedCount}</p>
             </div>
             <div className="w-11 h-11 rounded-xl bg-rose-500/10 text-rose-600 border border-rose-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
               <UserX className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-gray-100/80 flex items-center justify-between text-[11px]">
-            <span className="text-gray-400 font-medium">Restricted Accounts</span>
+          <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-dark-border/80 flex items-center justify-between text-[11px]">
+            <span className="text-gray-400 dark:text-dark-text-muted font-medium">Restricted Accounts</span>
             <span className="text-rose-700 font-bold bg-rose-50 px-1.5 py-0.5 rounded text-[10px]">
               {((blockedCount / (totalMembers || 1)) * 100).toFixed(0)}%
             </span>
@@ -585,7 +597,7 @@ export default function UserAccess() {
       </div>
 
       {/* Interactive Segmented Filter & Search Toolbar */}
-      <div className="bg-white p-3.5 rounded-2xl border border-[#D5E2DF] shadow-2xs flex flex-col lg:flex-row items-center justify-between gap-3">
+      <div className="bg-white dark:bg-dark-surface p-3.5 rounded-2xl border border-[#D5E2DF] dark:border-dark-border shadow-2xs flex flex-col lg:flex-row items-center justify-between gap-3">
         {/* Access Status Filter Tabs */}
         <div className="flex items-center gap-1.5 p-1 bg-gray-100/80 rounded-xl overflow-x-auto w-full lg:w-auto">
           {[
@@ -602,14 +614,14 @@ export default function UserAccess() {
                 onClick={() => setAccessFilter(tab.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
                   isActive
-                    ? 'bg-white text-[#173F3A] shadow-xs border border-gray-200/60'
-                    : 'text-gray-500 hover:text-gray-800 hover:bg-gray-200/50'
+                    ? 'bg-white dark:bg-dark-surface text-[#173F3A] dark:text-dark-text-primary shadow-xs border border-gray-200 dark:border-dark-border/60'
+                    : 'text-gray-500 dark:text-dark-text-secondary hover:text-gray-800 dark:text-dark-text-primary hover:bg-gray-200/50'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span
                   className={`px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
-                    isActive ? 'bg-teal-100 text-[#23796F]' : 'bg-gray-200/70 text-gray-600'
+                    isActive ? 'bg-teal-100 text-[#23796F] dark:text-dark-teal' : 'bg-gray-200/70 text-gray-600 dark:text-dark-text-secondary'
                   }`}
                 >
                   {tab.count}
@@ -621,16 +633,16 @@ export default function UserAccess() {
 
         {/* Search Input */}
         <div className="relative w-full lg:w-80">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-gray-400 dark:text-dark-text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search name, room, email, phone..."
-            className="w-full pl-9 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold text-[#173F3A] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#23796F] focus:bg-white transition-all"
+            className="w-full pl-9 pr-8 py-2 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 border border-gray-200 dark:border-dark-border rounded-xl text-xs font-semibold text-[#173F3A] dark:text-dark-text-primary placeholder:text-gray-400 dark:text-dark-text-muted focus:outline-none focus:ring-2 focus:ring-[#23796F] dark:focus:ring-dark-teal focus:bg-white dark:bg-dark-surface transition-all"
           />
           {searchQuery && (
-            <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+            <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-dark-text-muted hover:text-gray-600 dark:hover:text-dark-text-secondary dark:text-dark-text-secondary">
               <X className="w-3.5 h-3.5" />
             </button>
           )}
@@ -638,11 +650,11 @@ export default function UserAccess() {
       </div>
 
       {/* User Table */}
-      <div className="bg-white rounded-xl border border-[#D5E2DF] shadow-2xs overflow-hidden">
+      <div className="bg-white dark:bg-dark-surface rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50/80 border-b border-[#D5E2DF] text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+              <tr className="bg-gray-50/80 border-b border-[#D5E2DF] dark:border-dark-border text-[11px] font-bold text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">
                 <th className="py-3 px-4">Member</th>
                 <th className="py-3 px-4">Room</th>
                 <th className="py-3 px-4">Contact</th>
@@ -651,10 +663,10 @@ export default function UserAccess() {
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 text-xs">
+            <tbody className="divide-y divide-gray-100 dark:divide-dark-divider text-xs">
               {filteredRecords.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-gray-400 font-medium">
+                  <td colSpan={6} className="py-8 text-center text-gray-400 dark:text-dark-text-muted font-medium">
                     No members match the selected search or access status filter.
                   </td>
                 </tr>
@@ -663,23 +675,23 @@ export default function UserAccess() {
                   const status = getAccessStatus(rec);
 
                   return (
-                    <tr key={rec.id} className="hover:bg-gray-50/60 transition-colors">
+                    <tr key={rec.id} className="hover:bg-gray-50/60 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas">
                       {/* Member */}
-                      <td className="py-3.5 px-4 font-semibold text-[#173F3A]">
+                      <td className="py-3.5 px-4 font-semibold text-[#173F3A] dark:text-dark-text-primary">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-full bg-[#173F3A] text-white font-bold flex items-center justify-center shrink-0 text-xs">
                             {rec.full_name.charAt(0)}
                           </div>
                           <div>
-                            <div className="font-bold text-[#173F3A] flex items-center gap-2">
+                            <div className="font-bold text-[#173F3A] dark:text-dark-text-primary flex items-center gap-2">
                               <span>{rec.full_name}</span>
                               {rec.role === 'admin' && (
-                                <span className="px-1.5 py-0.5 bg-teal-100 text-[#23796F] text-[10px] font-extrabold rounded uppercase">
+                                <span className="px-1.5 py-0.5 bg-teal-100 text-[#23796F] dark:text-dark-teal text-[10px] font-extrabold rounded uppercase">
                                   Primary Admin
                                 </span>
                               )}
                             </div>
-                            <div className="text-[11px] text-gray-400 font-mono mt-0.5">
+                            <div className="text-[11px] text-gray-400 dark:text-dark-text-muted font-mono mt-0.5">
                               {rec.member_code || 'EH-RES'}
                             </div>
                           </div>
@@ -687,9 +699,9 @@ export default function UserAccess() {
                       </td>
 
                       {/* Room */}
-                      <td className="py-3.5 px-4 text-gray-600 font-medium">
+                      <td className="py-3.5 px-4 text-gray-600 dark:text-dark-text-secondary font-medium">
                         <div className="flex items-center gap-1.5">
-                          <DoorClosed className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                          <DoorClosed className="w-3.5 h-3.5 text-gray-400 dark:text-dark-text-muted shrink-0" />
                           <span>{rec.room_name || 'Single Room'}</span>
                         </div>
                       </td>
@@ -698,19 +710,19 @@ export default function UserAccess() {
                       <td className="py-3.5 px-4">
                         <div className="space-y-0.5">
                           {rec.email ? (
-                            <div className="text-gray-700 font-medium flex items-center gap-1.5">
-                              <Mail className="w-3 h-3 text-gray-400" />
+                            <div className="text-gray-700 dark:text-dark-text-secondary font-medium flex items-center gap-1.5">
+                              <Mail className="w-3 h-3 text-gray-400 dark:text-dark-text-muted" />
                               <span className="font-mono text-[11px]">{rec.email}</span>
                             </div>
                           ) : null}
                           {rec.phone ? (
-                            <div className="text-gray-500 text-[11px] flex items-center gap-1.5">
-                              <Phone className="w-3 h-3 text-gray-400" />
+                            <div className="text-gray-500 dark:text-dark-text-secondary text-[11px] flex items-center gap-1.5">
+                              <Phone className="w-3 h-3 text-gray-400 dark:text-dark-text-muted" />
                               <span>{rec.phone}</span>
                             </div>
                           ) : null}
                           {!rec.email && !rec.phone && (
-                            <span className="text-gray-400 italic font-medium text-[11px]">Not provided</span>
+                            <span className="text-gray-400 dark:text-dark-text-muted italic font-medium text-[11px]">Not provided</span>
                           )}
                         </div>
                       </td>
@@ -718,14 +730,14 @@ export default function UserAccess() {
                       {/* Access Status */}
                       <td className="py-3.5 px-4">
                         {status === 'Active' && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-bold rounded-full">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 dark:bg-dark-teal/10 text-emerald-800 border border-emerald-200 text-[11px] font-bold rounded-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                             <span>Active</span>
                           </span>
                         )}
 
                         {status === 'Not Invited' && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 text-gray-700 border border-gray-200 text-[11px] font-bold rounded-full">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 dark:bg-dark-raised text-gray-700 dark:text-dark-text-secondary border border-gray-200 dark:border-dark-border text-[11px] font-bold rounded-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
                             <span>Not Invited</span>
                           </span>
@@ -747,11 +759,11 @@ export default function UserAccess() {
                       </td>
 
                       {/* Last Login */}
-                      <td className="py-3.5 px-4 text-gray-500 font-mono text-[11px]">
+                      <td className="py-3.5 px-4 text-gray-500 dark:text-dark-text-secondary font-mono text-[11px]">
                         {rec.last_login && rec.last_login !== 'Never' ? (
                           new Date(rec.last_login).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
                         ) : (
-                          <span className="text-gray-400">Never</span>
+                          <span className="text-gray-400 dark:text-dark-text-muted">Never</span>
                         )}
                       </td>
 
@@ -761,7 +773,7 @@ export default function UserAccess() {
                           {status === 'Active' && (
                             <button
                               onClick={() => handleOpenDrawer(rec)}
-                              className="px-3 py-1.5 bg-gray-100 hover:bg-[#EBF3F2] hover:text-[#23796F] text-gray-700 font-semibold text-xs rounded-md transition-colors"
+                              className="px-3 py-1.5 bg-gray-100 dark:bg-dark-raised hover:bg-[#EBF3F2] hover:text-[#23796F] dark:hover:text-dark-teal dark:text-dark-teal text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                             >
                               Manage Access
                             </button>
@@ -770,7 +782,7 @@ export default function UserAccess() {
                           {status === 'Not Invited' && (
                             <button
                               onClick={() => handleOpenDrawer(rec)}
-                              className="px-3 py-1.5 bg-[#23796F] hover:bg-[#1C635B] text-white font-semibold text-xs rounded-md transition-colors"
+                              className="px-3 py-1.5 bg-[#23796F] hover:bg-[#1C635B] text-white font-semibold text-xs rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                             >
                               Send Invitation
                             </button>
@@ -779,7 +791,7 @@ export default function UserAccess() {
                           {status === 'Pending Approval' && (
                             <button
                               onClick={() => handleOpenDrawer(rec)}
-                              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs rounded-md transition-colors"
+                              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                             >
                               Review Request
                             </button>
@@ -788,7 +800,7 @@ export default function UserAccess() {
                           {status === 'Blocked' && (
                             <button
                               onClick={() => handleOpenDrawer(rec)}
-                              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-md transition-colors"
+                              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                             >
                               Restore Access
                             </button>
@@ -801,7 +813,7 @@ export default function UserAccess() {
                                 setDeleteModalOpen(true);
                               }}
                               title="Delete / Remove User Access"
-                              className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
+                              className="p-1.5 text-gray-400 dark:text-dark-text-muted hover:text-rose-600 hover:bg-rose-50 rounded-md transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -823,18 +835,18 @@ export default function UserAccess() {
           <div className="absolute inset-0 bg-gray-900/50 backdrop-blur-2xs transition-opacity" onClick={() => setIsDrawerOpen(false)} />
 
           <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div className="w-screen max-w-md bg-white border-l border-gray-200 shadow-2xl flex flex-col justify-between">
+            <div className="w-screen max-w-md bg-white dark:bg-dark-surface border-l border-gray-200 dark:border-dark-border shadow-2xl flex flex-col justify-between">
               {/* Drawer Header */}
-              <div className="p-6 border-b border-gray-200 bg-gray-50/80 flex items-center justify-between">
+              <div className="p-6 border-b border-gray-200 dark:border-dark-border bg-gray-50/80 flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-[#173F3A]">{selectedUser.full_name}</h2>
-                  <p className="text-xs text-gray-500 font-mono mt-0.5">
+                  <h2 className="text-lg font-bold text-[#173F3A] dark:text-dark-text-primary">{selectedUser.full_name}</h2>
+                  <p className="text-xs text-gray-500 dark:text-dark-text-secondary font-mono mt-0.5">
                     {selectedUser.member_code || 'EH-001'} • {selectedUser.room_name || 'Assigned Room'}
                   </p>
                 </div>
                 <button
                   onClick={() => setIsDrawerOpen(false)}
-                  className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="p-2 text-gray-400 dark:text-dark-text-muted hover:text-gray-600 dark:hover:text-dark-text-secondary dark:text-dark-text-secondary rounded-lg hover:bg-gray-200 dark:hover:bg-dark-hover transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -843,46 +855,46 @@ export default function UserAccess() {
               {/* Drawer Body Content */}
               <div className="p-6 space-y-6 flex-1 overflow-y-auto text-xs">
                 {/* Current Status Badge */}
-                <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between">
+                <div className="p-4 rounded-xl bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 border border-gray-200 dark:border-dark-border flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">Current Access Status</span>
-                    <span className="text-sm font-bold text-[#173F3A] mt-0.5 block">{getAccessStatus(selectedUser)}</span>
+                    <span className="text-[11px] font-bold text-gray-400 dark:text-dark-text-muted uppercase tracking-wider block">Current Access Status</span>
+                    <span className="text-sm font-bold text-[#173F3A] dark:text-dark-text-primary mt-0.5 block">{getAccessStatus(selectedUser)}</span>
                   </div>
                   {getAccessStatus(selectedUser) === 'Active' && <ShieldCheck className="w-6 h-6 text-emerald-600" />}
-                  {getAccessStatus(selectedUser) === 'Not Invited' && <Mail className="w-6 h-6 text-gray-400" />}
+                  {getAccessStatus(selectedUser) === 'Not Invited' && <Mail className="w-6 h-6 text-gray-400 dark:text-dark-text-muted" />}
                   {getAccessStatus(selectedUser) === 'Blocked' && <Lock className="w-6 h-6 text-rose-600" />}
                 </div>
 
                 {/* Contact Information */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-[#173F3A] uppercase tracking-wider text-[11px] text-gray-400">Contact Information</h3>
+                    <h3 className="font-bold text-[#173F3A] dark:text-dark-text-primary uppercase tracking-wider text-[11px] text-gray-400 dark:text-dark-text-muted">Contact Information</h3>
                     <button
                       onClick={() => setEditEmailModalOpen(true)}
-                      className="text-[#23796F] hover:underline font-semibold text-xs"
+                      className="text-[#23796F] dark:text-dark-teal hover:underline font-semibold text-xs"
                     >
                       {selectedUser.email ? 'Edit Contact' : '+ Add Email / Phone'}
                     </button>
                   </div>
 
-                  <div className="bg-white p-4 rounded-xl border border-gray-200 space-y-2">
+                  <div className="bg-white dark:bg-dark-surface p-4 rounded-xl border border-gray-200 dark:border-dark-border space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-500 font-medium">Email Address:</span>
-                      <span className="font-mono text-[#173F3A] font-semibold">
-                        {selectedUser.email || <span className="text-gray-400 italic">Not provided</span>}
+                      <span className="text-gray-500 dark:text-dark-text-secondary font-medium">Email Address:</span>
+                      <span className="font-mono text-[#173F3A] dark:text-dark-text-primary font-semibold">
+                        {selectedUser.email || <span className="text-gray-400 dark:text-dark-text-muted italic">Not provided</span>}
                       </span>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-500 font-medium">Phone Number:</span>
-                      <span className="font-mono text-[#173F3A] font-semibold">
-                        {selectedUser.phone || <span className="text-gray-400 italic">Not provided</span>}
+                      <span className="text-gray-500 dark:text-dark-text-secondary font-medium">Phone Number:</span>
+                      <span className="font-mono text-[#173F3A] dark:text-dark-text-primary font-semibold">
+                        {selectedUser.phone || <span className="text-gray-400 dark:text-dark-text-muted italic">Not provided</span>}
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between pt-1 border-t border-gray-100">
-                      <span className="text-gray-500 font-medium">Last Login:</span>
-                      <span className="font-mono text-gray-600">
+                    <div className="flex items-center justify-between pt-1 border-t border-gray-100 dark:border-dark-border">
+                      <span className="text-gray-500 dark:text-dark-text-secondary font-medium">Last Login:</span>
+                      <span className="font-mono text-gray-600 dark:text-dark-text-secondary">
                         {selectedUser.last_login && selectedUser.last_login !== 'Never'
                           ? new Date(selectedUser.last_login).toLocaleString()
                           : 'Never'}
@@ -893,14 +905,14 @@ export default function UserAccess() {
 
                 {/* Admin Actions */}
                 <div className="space-y-3">
-                  <h3 className="font-bold text-[#173F3A] uppercase tracking-wider text-[11px] text-gray-400">Admin Actions</h3>
+                  <h3 className="font-bold text-[#173F3A] dark:text-dark-text-primary uppercase tracking-wider text-[11px] text-gray-400 dark:text-dark-text-muted">Admin Actions</h3>
 
                   <div className="space-y-2">
                     {/* Enable / Restore Login */}
                     {getAccessStatus(selectedUser) !== 'Active' ? (
                       <button
                         onClick={handleEnableLogin}
-                        className="w-full py-2.5 px-4 bg-[#23796F] hover:bg-[#1C635B] text-white font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors shadow-xs"
+                        className="w-full py-2.5 px-4 bg-[#23796F] hover:bg-[#1C635B] text-white font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                       >
                         <Unlock className="w-4 h-4" />
                         <span>Enable Login Access</span>
@@ -908,7 +920,7 @@ export default function UserAccess() {
                     ) : (
                       <button
                         onClick={() => setDisableModalOpen(true)}
-                        className="w-full py-2.5 px-4 bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors"
+                        className="w-full py-2.5 px-4 bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                       >
                         <Lock className="w-4 h-4 text-rose-600" />
                         <span>Disable Login Access</span>
@@ -918,27 +930,27 @@ export default function UserAccess() {
                     {/* Send Login Invitation */}
                     <button
                       onClick={handleSendInvitation}
-                      className="w-full py-2.5 px-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors"
+                      className="w-full py-2.5 px-4 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 hover:bg-gray-100 dark:hover:bg-dark-hover dark:bg-dark-raised border border-gray-200 dark:border-dark-border text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                     >
-                      <Send className="w-4 h-4 text-[#23796F]" />
+                      <Send className="w-4 h-4 text-[#23796F] dark:text-dark-teal" />
                       <span>Send Login Invitation</span>
                     </button>
 
                     {/* Reset Password */}
                     <button
                       onClick={handleResetPassword}
-                      className="w-full py-2.5 px-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors"
+                      className="w-full py-2.5 px-4 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 hover:bg-gray-100 dark:hover:bg-dark-hover dark:bg-dark-raised border border-gray-200 dark:border-dark-border text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                     >
-                      <KeyRound className="w-4 h-4 text-gray-500" />
+                      <KeyRound className="w-4 h-4 text-gray-500 dark:text-dark-text-secondary" />
                       <span>Send Password Reset Link</span>
                     </button>
 
                     {/* Sign Out from All Devices */}
                     <button
                       onClick={handleRevokeSessions}
-                      className="w-full py-2.5 px-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors"
+                      className="w-full py-2.5 px-4 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 hover:bg-gray-100 dark:hover:bg-dark-hover dark:bg-dark-raised border border-gray-200 dark:border-dark-border text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                     >
-                      <LogOut className="w-4 h-4 text-gray-500" />
+                      <LogOut className="w-4 h-4 text-gray-500 dark:text-dark-text-secondary" />
                       <span>Sign Out from All Devices</span>
                     </button>
 
@@ -948,9 +960,9 @@ export default function UserAccess() {
                         setIsDrawerOpen(false);
                         navigate('/members');
                       }}
-                      className="w-full py-2.5 px-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors"
+                      className="w-full py-2.5 px-4 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 hover:bg-gray-100 dark:hover:bg-dark-hover dark:bg-dark-raised border border-gray-200 dark:border-dark-border text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                     >
-                      <Eye className="w-4 h-4 text-gray-500" />
+                      <Eye className="w-4 h-4 text-gray-500 dark:text-dark-text-secondary" />
                       <span>View Member Details</span>
                     </button>
 
@@ -961,7 +973,7 @@ export default function UserAccess() {
                           setUserToDelete(selectedUser);
                           setDeleteModalOpen(true);
                         }}
-                        className="w-full py-2.5 px-4 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors mt-3"
+                        className="w-full py-2.5 px-4 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 font-semibold text-xs rounded-lg flex items-center justify-center gap-2 transition-colors mt-3 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                       >
                         <Trash2 className="w-4 h-4 text-rose-600" />
                         <span>Delete / Remove User Access Account</span>
@@ -972,10 +984,10 @@ export default function UserAccess() {
               </div>
 
               {/* Drawer Footer */}
-              <div className="p-4 border-t border-gray-200 bg-gray-50 text-right">
+              <div className="p-4 border-t border-gray-200 dark:border-dark-border bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 text-right">
                 <button
                   onClick={() => setIsDrawerOpen(false)}
-                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold text-xs rounded-lg"
+                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:text-dark-text-primary font-semibold text-xs rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                 >
                   Close Drawer
                 </button>
@@ -988,44 +1000,44 @@ export default function UserAccess() {
       {/* EDIT CONTACT EMAIL MODAL */}
       {editEmailModalOpen && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-sm w-full p-6 space-y-4">
-            <h3 className="text-base font-bold text-[#173F3A]">Update Contact Information</h3>
-            <p className="text-xs text-gray-500">Provide contact details for {selectedUser.full_name}:</p>
+          <div className="bg-white dark:bg-dark-surface rounded-xl shadow-2xl border border-gray-200 dark:border-dark-border max-w-sm w-full p-6 space-y-4">
+            <h3 className="text-base font-bold text-[#173F3A] dark:text-dark-text-primary">Update Contact Information</h3>
+            <p className="text-xs text-gray-500 dark:text-dark-text-secondary">Provide contact details for {selectedUser.full_name}:</p>
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block text-gray-700 font-semibold mb-1">Email Address</label>
+                <label className="block text-gray-700 dark:text-dark-text-secondary font-semibold mb-1">Email Address</label>
                 <input
                   type="email"
                   value={newEmailInput}
                   onChange={(e) => setNewEmailInput(e.target.value)}
                   placeholder="e.g. member@exechome.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#23796F]"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-[#23796F] dark:focus:ring-dark-teal"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-1">Phone Number</label>
+                <label className="block text-gray-700 dark:text-dark-text-secondary font-semibold mb-1">Phone Number</label>
                 <input
                   type="text"
                   value={newPhoneInput}
                   onChange={(e) => setNewPhoneInput(e.target.value)}
                   placeholder="e.g. 01712345678"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#23796F]"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-[#23796F] dark:focus:ring-dark-teal"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-dark-border">
               <button
                 onClick={() => setEditEmailModalOpen(false)}
-                className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-lg"
+                className="px-3 py-2 bg-gray-100 dark:bg-dark-raised hover:bg-gray-200 dark:hover:bg-dark-hover text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveContactDetails}
-                className="px-4 py-2 bg-[#23796F] hover:bg-[#1C635B] text-white font-semibold text-xs rounded-lg"
+                className="px-4 py-2 bg-[#23796F] hover:bg-[#1C635B] text-white font-semibold text-xs rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 Save Contact
               </button>
@@ -1037,22 +1049,22 @@ export default function UserAccess() {
       {/* DISABLE LOGIN REASON MODAL */}
       {disableModalOpen && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-md w-full p-6 space-y-4">
+          <div className="bg-white dark:bg-dark-surface rounded-xl shadow-2xl border border-gray-200 dark:border-dark-border max-w-md w-full p-6 space-y-4">
             <div className="flex items-center gap-3 text-rose-600">
               <AlertTriangle className="w-6 h-6 shrink-0" />
-              <h3 className="text-base font-bold text-[#173F3A]">Disable Member Login Access</h3>
+              <h3 className="text-base font-bold text-[#173F3A] dark:text-dark-text-primary">Disable Member Login Access</h3>
             </div>
 
-            <p className="text-xs text-gray-600 leading-relaxed">
+            <p className="text-xs text-gray-600 dark:text-dark-text-secondary leading-relaxed">
               Disable login access for <strong>{selectedUser.full_name}</strong>? They will be signed out immediately and unable to access their account.
             </p>
 
             <div className="space-y-2 text-xs">
-              <label className="block text-gray-700 font-semibold">Select Reason for Disabling Access:</label>
+              <label className="block text-gray-700 dark:text-dark-text-secondary font-semibold">Select Reason for Disabling Access:</label>
               <select
                 value={disableReason}
                 onChange={(e) => setDisableReason(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-dark-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 bg-white dark:bg-dark-surface"
               >
                 <option value="Documents incomplete">Documents incomplete</option>
                 <option value="Payment issue">Payment issue</option>
@@ -1068,21 +1080,21 @@ export default function UserAccess() {
                   value={customReasonText}
                   onChange={(e) => setCustomReasonText(e.target.value)}
                   placeholder="Specify reason..."
-                  className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  className="w-full mt-2 px-3 py-2 border border-gray-300 dark:border-dark-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
                 />
               )}
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-dark-border">
               <button
                 onClick={() => setDisableModalOpen(false)}
-                className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-lg"
+                className="px-3 py-2 bg-gray-100 dark:bg-dark-raised hover:bg-gray-200 dark:hover:bg-dark-hover text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmDisableLogin}
-                className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-lg"
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 Disable Login
               </button>
@@ -1094,31 +1106,31 @@ export default function UserAccess() {
       {/* GENERATED INVITATION CREDENTIALS & DIRECT EMAIL MODAL */}
       {inviteModalOpen && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-md w-full p-6 space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-gray-100">
-              <div className="flex items-center gap-2 text-[#173F3A]">
-                <KeyRound className="w-5 h-5 text-[#23796F]" />
+          <div className="bg-white dark:bg-dark-surface rounded-xl shadow-2xl border border-gray-200 dark:border-dark-border max-w-md w-full p-6 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-dark-border">
+              <div className="flex items-center gap-2 text-[#173F3A] dark:text-dark-text-primary">
+                <KeyRound className="w-5 h-5 text-[#23796F] dark:text-dark-teal" />
                 <h3 className="text-base font-bold">Login Credentials & Email Invitation</h3>
               </div>
-              <button onClick={() => setInviteModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setInviteModalOpen(false)} className="text-gray-400 dark:text-dark-text-muted hover:text-gray-600 dark:hover:text-dark-text-secondary dark:text-dark-text-secondary">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-xs text-gray-600 leading-relaxed">
+            <p className="text-xs text-gray-600 dark:text-dark-text-secondary leading-relaxed">
               Login access has been enabled for <strong>{selectedUser.full_name}</strong>. Send the login invitation directly to their inbox or copy the credentials:
             </p>
 
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3 text-xs">
+            <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-4 rounded-xl border border-gray-200 dark:border-dark-border space-y-3 text-xs">
               <div>
-                <span className="text-gray-400 uppercase font-bold text-[10px] tracking-wider block">Recipient Email Address</span>
-                <span className="font-mono font-semibold text-[#173F3A] text-sm">{selectedUser.email}</span>
+                <span className="text-gray-400 dark:text-dark-text-muted uppercase font-bold text-[10px] tracking-wider block">Recipient Email Address</span>
+                <span className="font-mono font-semibold text-[#173F3A] dark:text-dark-text-primary text-sm">{selectedUser.email}</span>
               </div>
 
               <div>
-                <span className="text-gray-400 uppercase font-bold text-[10px] tracking-wider block">Temporary Password</span>
+                <span className="text-gray-400 dark:text-dark-text-muted uppercase font-bold text-[10px] tracking-wider block">Temporary Password</span>
                 <div className="flex items-center justify-between mt-0.5">
-                  <span className="font-mono font-bold text-teal-800 text-base bg-teal-50 px-2.5 py-1 rounded border border-teal-200">
+                  <span className="font-mono font-bold text-teal-800 text-base bg-teal-50 dark:bg-dark-teal/10 px-2.5 py-1 rounded border border-teal-200">
                     {generatedTempPass}
                   </span>
                   <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
@@ -1128,17 +1140,17 @@ export default function UserAccess() {
               </div>
 
               <div>
-                <span className="text-gray-400 uppercase font-bold text-[10px] tracking-wider block">Direct Login URL</span>
-                <span className="font-mono text-gray-600 text-[11px] break-all">{window.location.origin}/login</span>
+                <span className="text-gray-400 dark:text-dark-text-muted uppercase font-bold text-[10px] tracking-wider block">Direct Login URL</span>
+                <span className="font-mono text-gray-600 dark:text-dark-text-secondary text-[11px] break-all">{window.location.origin}/login</span>
               </div>
             </div>
 
             {/* Direct Send Action Buttons */}
-            <div className="space-y-2 pt-1 border-t border-gray-100">
+            <div className="space-y-2 pt-1 border-t border-gray-100 dark:border-dark-border">
               <button
                 onClick={handleSendDirectEmail}
                 disabled={isSendingEmail}
-                className="w-full py-2.5 px-4 bg-[#23796F] hover:bg-[#1C635B] text-white font-bold text-xs rounded-lg flex items-center justify-center gap-2 shadow-xs transition-colors"
+                className="w-full py-2.5 px-4 bg-[#23796F] hover:bg-[#1C635B] text-white font-bold text-xs rounded-lg flex items-center justify-center gap-2 shadow-xs transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 {isSendingEmail ? (
                   <>
@@ -1156,9 +1168,9 @@ export default function UserAccess() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleOpenMailClient}
-                  className="flex-1 py-2 px-3 bg-teal-50 hover:bg-teal-100 text-[#173F3A] border border-teal-200 font-semibold text-[11px] rounded-lg flex items-center justify-center gap-1.5 transition-colors"
+                  className="flex-1 py-2 px-3 bg-teal-50 dark:bg-dark-teal/10 hover:bg-teal-100 text-[#173F3A] dark:text-dark-text-primary border border-teal-200 font-semibold text-[11px] rounded-lg flex items-center justify-center gap-1.5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                 >
-                  <ExternalLink className="w-3.5 h-3.5 text-[#23796F]" />
+                  <ExternalLink className="w-3.5 h-3.5 text-[#23796F] dark:text-dark-teal" />
                   <span>Open Mail App</span>
                 </button>
 
@@ -1168,15 +1180,15 @@ export default function UserAccess() {
                     navigator.clipboard.writeText(text);
                     showToast('success', 'Invitation credentials copied to clipboard!');
                   }}
-                  className="flex-1 py-2 px-3 bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 font-semibold text-[11px] rounded-lg flex items-center justify-center gap-1.5 transition-colors"
+                  className="flex-1 py-2 px-3 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 hover:bg-gray-100 dark:hover:bg-dark-hover dark:bg-dark-raised text-gray-700 dark:text-dark-text-secondary border border-gray-200 dark:border-dark-border font-semibold text-[11px] rounded-lg flex items-center justify-center gap-1.5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                 >
-                  <Copy className="w-3.5 h-3.5 text-gray-500" />
+                  <Copy className="w-3.5 h-3.5 text-gray-500 dark:text-dark-text-secondary" />
                   <span>Copy Text</span>
                 </button>
 
                 <button
                   onClick={() => setInviteModalOpen(false)}
-                  className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-lg"
+                  className="px-3 py-2 bg-gray-100 dark:bg-dark-raised hover:bg-gray-200 dark:hover:bg-dark-hover text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                 >
                   Done
                 </button>
@@ -1189,34 +1201,34 @@ export default function UserAccess() {
       {/* DELETE USER ACCESS CONFIRMATION MODAL */}
       {deleteModalOpen && userToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-md w-full p-6 space-y-4">
+          <div className="bg-white dark:bg-dark-surface rounded-xl shadow-2xl border border-gray-200 dark:border-dark-border max-w-md w-full p-6 space-y-4">
             <div className="flex items-center gap-3 text-rose-600">
               <div className="p-2.5 bg-rose-100 rounded-full">
                 <Trash2 className="w-6 h-6 text-rose-600" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[#173F3A]">Delete User Access Account</h3>
-                <p className="text-xs text-gray-500">Member: {userToDelete.full_name} ({userToDelete.member_code})</p>
+                <h3 className="text-base font-bold text-[#173F3A] dark:text-dark-text-primary">Delete User Access Account</h3>
+                <p className="text-xs text-gray-500 dark:text-dark-text-secondary">Member: {userToDelete.full_name} ({userToDelete.member_code})</p>
               </div>
             </div>
 
-            <p className="text-xs text-gray-600 leading-relaxed bg-rose-50/70 p-3 rounded-lg border border-rose-100">
+            <p className="text-xs text-gray-600 dark:text-dark-text-secondary leading-relaxed bg-rose-50/70 p-3 rounded-lg border border-rose-100">
               Are you sure you want to completely <strong>delete login access</strong> for <strong>{userToDelete.full_name}</strong>? They will be immediately removed from the login access directory and will no longer be able to sign in.
             </p>
 
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-dark-border">
               <button
                 onClick={() => {
                   setDeleteModalOpen(false);
                   setUserToDelete(null);
                 }}
-                className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-lg transition-colors"
+                className="px-3 py-2 bg-gray-100 dark:bg-dark-raised hover:bg-gray-200 dark:hover:bg-dark-hover text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmDeleteUserAccess}
-                className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-lg flex items-center gap-1.5 shadow-xs transition-colors"
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-lg flex items-center gap-1.5 shadow-xs transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Confirm Delete Access</span>
@@ -1229,44 +1241,44 @@ export default function UserAccess() {
       {/* DISPATCHED EMAIL MESSAGES INBOX MODAL */}
       {sentEmailsModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-xl w-full p-6 space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-gray-100">
-              <div className="flex items-center gap-2 text-[#173F3A]">
-                <Mail className="w-5 h-5 text-[#23796F]" />
+          <div className="bg-white dark:bg-dark-surface rounded-xl shadow-2xl border border-gray-200 dark:border-dark-border max-w-xl w-full p-6 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-dark-border">
+              <div className="flex items-center gap-2 text-[#173F3A] dark:text-dark-text-primary">
+                <Mail className="w-5 h-5 text-[#23796F] dark:text-dark-teal" />
                 <h3 className="text-base font-bold">Dispatched Email Invitations & Messages</h3>
               </div>
-              <button onClick={() => setSentEmailsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setSentEmailsModalOpen(false)} className="text-gray-400 dark:text-dark-text-muted hover:text-gray-600 dark:hover:text-dark-text-secondary dark:text-dark-text-secondary">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-dark-text-secondary">
               Below is the list of all email invitation messages dispatched from Executive Home. You can test logging in directly as any invited member:
             </p>
 
             {sentEmailsList.length === 0 ? (
-              <div className="text-center py-8 bg-gray-50 rounded-xl border border-gray-200">
+              <div className="text-center py-8 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 rounded-xl border border-gray-200 dark:border-dark-border">
                 <Mail className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                <p className="text-xs font-semibold text-gray-500">No emails dispatched yet.</p>
-                <p className="text-[11px] text-gray-400 mt-1">Send an invitation to a member to generate an email message.</p>
+                <p className="text-xs font-semibold text-gray-500 dark:text-dark-text-secondary">No emails dispatched yet.</p>
+                <p className="text-[11px] text-gray-400 dark:text-dark-text-muted mt-1">Send an invitation to a member to generate an email message.</p>
               </div>
             ) : (
               <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
                 {sentEmailsList.map((item) => (
-                  <div key={item.id} className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+                  <div key={item.id} className="p-4 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 rounded-xl border border-gray-200 dark:border-dark-border space-y-2">
                     <div className="flex items-start justify-between">
                       <div>
-                        <span className="text-xs font-bold text-[#173F3A]">{item.recipient_name}</span>
-                        <span className="text-xs font-mono text-gray-500 block">{item.recipient_email}</span>
+                        <span className="text-xs font-bold text-[#173F3A] dark:text-dark-text-primary">{item.recipient_name}</span>
+                        <span className="text-xs font-mono text-gray-500 dark:text-dark-text-secondary block">{item.recipient_email}</span>
                       </div>
-                      <span className="text-[10px] text-gray-400 font-medium">
+                      <span className="text-[10px] text-gray-400 dark:text-dark-text-muted font-medium">
                         {new Date(item.sent_at).toLocaleString()}
                       </span>
                     </div>
 
-                    <div className="bg-white p-2.5 rounded-lg border border-gray-200 text-[11px] text-gray-700 space-y-1">
-                      <p className="font-semibold text-[#23796F]">{item.subject}</p>
-                      <p className="font-mono text-gray-600 whitespace-pre-wrap text-[10px] leading-relaxed">
+                    <div className="bg-white dark:bg-dark-surface p-2.5 rounded-lg border border-gray-200 dark:border-dark-border text-[11px] text-gray-700 dark:text-dark-text-secondary space-y-1">
+                      <p className="font-semibold text-[#23796F] dark:text-dark-teal">{item.subject}</p>
+                      <p className="font-mono text-gray-600 dark:text-dark-text-secondary whitespace-pre-wrap text-[10px] leading-relaxed">
                         {item.body}
                       </p>
                     </div>
@@ -1274,7 +1286,7 @@ export default function UserAccess() {
                     <div className="flex items-center justify-between pt-1">
                       {item.temp_password && (
                         <div className="text-[10px]">
-                          <span className="text-gray-400 font-semibold uppercase">Temp Pass: </span>
+                          <span className="text-gray-400 dark:text-dark-text-muted font-semibold uppercase">Temp Pass: </span>
                           <span className="font-mono font-bold text-teal-800 bg-teal-100/70 px-1.5 py-0.5 rounded">
                             {item.temp_password}
                           </span>
@@ -1287,9 +1299,9 @@ export default function UserAccess() {
                             navigator.clipboard.writeText(item.body);
                             showToast('success', 'Email body copied to clipboard!');
                           }}
-                          className="px-2.5 py-1 bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 text-[11px] font-semibold rounded flex items-center gap-1 transition-colors"
+                          className="px-2.5 py-1 bg-white dark:bg-dark-surface border border-gray-200 dark:border-dark-border hover:bg-gray-100 dark:hover:bg-dark-hover dark:bg-dark-raised text-gray-700 dark:text-dark-text-secondary text-[11px] font-semibold rounded flex items-center gap-1 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                         >
-                          <Copy className="w-3 h-3 text-gray-400" />
+                          <Copy className="w-3 h-3 text-gray-400 dark:text-dark-text-muted" />
                           <span>Copy Message</span>
                         </button>
 
@@ -1299,7 +1311,7 @@ export default function UserAccess() {
                             setSentEmailsModalOpen(false);
                             navigate('/');
                           }}
-                          className="px-3 py-1 bg-[#23796F] hover:bg-[#1C635B] text-white text-[11px] font-bold rounded flex items-center gap-1 transition-colors shadow-2xs"
+                          className="px-3 py-1 bg-[#23796F] hover:bg-[#1C635B] text-white text-[11px] font-bold rounded flex items-center gap-1 transition-colors shadow-2xs outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                         >
                           <UserCheck className="w-3 h-3" />
                           <span>Sign In as {item.recipient_name.split(' ')[0]}</span>
@@ -1311,12 +1323,134 @@ export default function UserAccess() {
               </div>
             )}
 
-            <div className="flex items-center justify-end pt-2 border-t border-gray-100">
+            <div className="flex items-center justify-end pt-2 border-t border-gray-100 dark:border-dark-border">
               <button
                 onClick={() => setSentEmailsModalOpen(false)}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-lg transition-colors"
+                className="px-4 py-2 bg-gray-100 dark:bg-dark-raised hover:bg-gray-200 dark:hover:bg-dark-hover text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 Close Inbox
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* REVIEW PROFILE UPDATE REQUESTS MODAL */}
+      {reviewRequestsModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4">
+          <div className="bg-white dark:bg-dark-surface rounded-xl shadow-2xl border border-gray-200 dark:border-dark-border max-w-2xl w-full p-6 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-dark-border">
+              <div className="flex items-center gap-2 text-[#173F3A] dark:text-dark-text-primary">
+                <AlertCircle className="w-5 h-5 text-amber-600" />
+                <h3 className="text-base font-bold">Pending Profile Update Requests</h3>
+              </div>
+              <button onClick={() => setReviewRequestsModalOpen(false)} className="text-gray-400 dark:text-dark-text-muted hover:text-gray-600 dark:hover:text-dark-text-secondary dark:text-dark-text-secondary">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500 dark:text-dark-text-secondary">
+              The following members have requested updates to their personal and contact records. Review the changes and approve to apply them immediately or reject them:
+            </p>
+
+            {pendingRequests.length === 0 ? (
+              <div className="text-center py-8 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 rounded-xl border border-gray-200 dark:border-dark-border">
+                <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
+                <p className="text-xs font-semibold text-gray-500 dark:text-dark-text-secondary">All caught up!</p>
+                <p className="text-[11px] text-gray-400 dark:text-dark-text-muted mt-1">There are no pending profile update requests.</p>
+              </div>
+            ) : (
+              <div className="space-y-4 max-h-96 overflow-y-auto pr-1">
+                {pendingRequests.map((req) => {
+                  let currentMember: any = null;
+                  try {
+                    const membersStr = localStorage.getItem('eh_members');
+                    if (membersStr) {
+                      const members = JSON.parse(membersStr);
+                      currentMember = members.find((m: any) => m.member_code === req.member_code || m.id === req.member_id);
+                    }
+                  } catch (e) {
+                    console.error('Error reading current member for comparison:', e);
+                  }
+
+                  return (
+                    <div key={req.id} className="p-4 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 rounded-xl border border-gray-200 dark:border-dark-border space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <span className="text-xs font-bold text-[#173F3A] dark:text-dark-text-primary">{req.member_name}</span>
+                          <span className="text-[10px] font-mono text-gray-500 dark:text-dark-text-secondary block">Code: {req.member_code}</span>
+                        </div>
+                        <span className="text-[10px] text-gray-400 dark:text-dark-text-muted font-medium">
+                          Submitted: {new Date(req.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+
+                      {req.notes && (
+                        <div className="bg-amber-50/50 p-2 rounded border border-amber-100 text-[11px] text-amber-900 italic">
+                          <strong>Note from user:</strong> "{req.notes}"
+                        </div>
+                      )}
+
+                      <div className="bg-white dark:bg-dark-surface rounded-lg border border-gray-200 dark:border-dark-border overflow-hidden text-xs">
+                        <table className="w-full text-left border-collapse">
+                          <thead>
+                            <tr className="bg-gray-100/70 border-b border-gray-200 dark:border-dark-border text-[10px] font-bold text-gray-500 dark:text-dark-text-secondary uppercase">
+                              <th className="py-1.5 px-3">Field</th>
+                              <th className="py-1.5 px-3">Current Value</th>
+                              <th className="py-1.5 px-3 text-[#23796F] dark:text-dark-teal">Proposed New Value</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100 dark:divide-dark-divider">
+                            {Object.entries(req.requested_fields || {}).map(([key, value]) => {
+                              const valStr = String(value || '').trim();
+                              if (!valStr) return null;
+
+                              const currentVal = currentMember ? currentMember[key] : 'N/A';
+
+                              return (
+                                <tr key={key} className="hover:bg-gray-50/40 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas">
+                                  <td className="py-2 px-3 font-semibold text-gray-600 dark:text-dark-text-secondary capitalize">
+                                    {key.replace(/_/g, ' ')}
+                                  </td>
+                                  <td className="py-2 px-3 text-gray-400 dark:text-dark-text-muted font-mono text-[11px] truncate max-w-[150px]">
+                                    {currentVal || <span className="italic">Empty</span>}
+                                  </td>
+                                  <td className="py-2 px-3 text-emerald-700 font-bold font-mono text-[11px] bg-emerald-50/30">
+                                    {valStr}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="flex items-center justify-end gap-2 pt-1">
+                        <button
+                          onClick={() => handleRejectRequest(req.id)}
+                          className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg transition-colors border border-rose-200 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
+                        >
+                          Reject
+                        </button>
+                        <button
+                          onClick={() => handleApproveRequest(req.id)}
+                          className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-colors shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
+                        >
+                          Approve & Apply Updates
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            <div className="flex items-center justify-end pt-2 border-t border-gray-100 dark:border-dark-border">
+              <button
+                onClick={() => setReviewRequestsModalOpen(false)}
+                className="px-4 py-2 bg-gray-100 dark:bg-dark-raised hover:bg-gray-200 dark:hover:bg-dark-hover text-gray-700 dark:text-dark-text-secondary font-semibold text-xs rounded-lg transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
+              >
+                Close Window
               </button>
             </div>
           </div>

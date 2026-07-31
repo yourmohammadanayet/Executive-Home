@@ -178,17 +178,17 @@ export default function AddMemberModal({ isOpen, onClose, onSuccess }: AddMember
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/80 p-4 overflow-y-auto">
-      <div className="relative w-full max-w-2xl rounded-xl bg-white shadow-xl my-8">
-        <div className="flex items-center justify-between border-b border-[#D5E2DF] px-6 py-4">
-          <h2 className="text-lg font-semibold text-gray-900">Add New Member</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
+      <div className="relative w-full max-w-2xl rounded-xl bg-white dark:bg-dark-surface shadow-xl my-8">
+        <div className="flex items-center justify-between border-b border-[#D5E2DF] dark:border-dark-border px-6 py-4">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary">Add New Member</h2>
+          <button onClick={onClose} className="text-gray-400 dark:text-dark-text-muted hover:text-gray-500 dark:text-dark-text-secondary">
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6">
           {error && (
-            <div className="mb-6 rounded-md bg-red-50 p-4 text-sm text-red-700 border border-red-200">
+            <div className="mb-6 rounded-md bg-red-50 dark:bg-dark-red/10 p-4 text-sm text-red-700 border border-red-200 dark:border-red-800">
               {error}
             </div>
           )}
@@ -196,29 +196,29 @@ export default function AddMemberModal({ isOpen, onClose, onSuccess }: AddMember
           <div className="space-y-6">
             {/* Personal Info */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Personal Information</h3>
+              <h3 className="text-sm font-medium text-gray-900 dark:text-dark-text-primary mb-3">Personal Information</h3>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                  <input required type="text" value={fullName} onChange={e => setFullName(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Full Name</label>
+                  <input required type="text" value={fullName} onChange={e => setFullName(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-                  <input type="text" value={phone} onChange={e => setPhone(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Phone Number</label>
+                  <input type="text" value={phone} onChange={e => setPhone(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Email Address</label>
-                  <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Email Address</label>
+                  <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-[#D5E2DF] pt-6">
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Room & Rent</h3>
+            <div className="border-t border-[#D5E2DF] dark:border-dark-border pt-6">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-dark-text-primary mb-3">Room & Rent</h3>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Room</label>
-                  <select required value={roomId} onChange={e => setRoomId(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Room</label>
+                  <select required value={roomId} onChange={e => setRoomId(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong">
                     <option value="">Select a room</option>
                     {rooms.map(r => (
                       <option key={r.id} value={r.id}>{r.name} ({r.type})</option>
@@ -226,38 +226,38 @@ export default function AddMemberModal({ isOpen, onClose, onSuccess }: AddMember
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Base Monthly Rent (৳)</label>
-                  <input required type="number" min="0" value={baseRent} onChange={e => setBaseRent(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Base Monthly Rent (৳)</label>
+                  <input required type="number" min="0" value={baseRent} onChange={e => setBaseRent(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-[#D5E2DF] pt-6">
-              <h3 className="text-sm font-medium text-gray-900 mb-3">One-time Joining / Service Charge</h3>
+            <div className="border-t border-[#D5E2DF] dark:border-dark-border pt-6">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-dark-text-primary mb-3">One-time Joining / Service Charge</h3>
               <div className="rounded-md bg-blue-50 p-4 border border-blue-100 mb-4">
                 <p className="text-sm text-blue-700">Suggested charge is ৳{suggestedCharge}. This is collected only once and is not a recurring monthly charge.</p>
               </div>
               
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Final Charge Amount</label>
-                  <input type="number" min="0" value={finalCharge} onChange={e => setFinalCharge(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Final Charge Amount</label>
+                  <input type="number" min="0" value={finalCharge} onChange={e => setFinalCharge(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Discount</label>
-                  <input type="number" min="0" value={discount} onChange={e => setDiscount(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Discount</label>
+                  <input type="number" min="0" value={discount} onChange={e => setDiscount(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Waived Amount</label>
-                  <input type="number" min="0" value={waivedAmount} onChange={e => setWaivedAmount(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Waived Amount</label>
+                  <input type="number" min="0" value={waivedAmount} onChange={e => setWaivedAmount(Number(e.target.value))} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Final Payable (Calculated)</label>
-                  <input type="number" readOnly value={finalPayable} className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Final Payable (Calculated)</label>
+                  <input type="number" readOnly value={finalPayable} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 shadow-sm sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700">Collection Plan</label>
-                  <select value={paymentPlan} onChange={e => setPaymentPlan(e.target.value as any)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#23796F] focus:ring-[#23796F] sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary">Collection Plan</label>
+                  <select value={paymentPlan} onChange={e => setPaymentPlan(e.target.value as any)} className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border-strong shadow-sm focus:border-[#23796F] dark:border-emerald-500 focus:ring-[#23796F] dark:focus:ring-dark-teal sm:text-sm px-3 py-2 border outline-none ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong">
                     <option value="first_month">Add to first month's bill</option>
                     <option value="immediate">Collect immediately (separate payment)</option>
                     <option value="separate">Collect separately later</option>
@@ -267,11 +267,11 @@ export default function AddMemberModal({ isOpen, onClose, onSuccess }: AddMember
             </div>
           </div>
 
-          <div className="mt-8 flex justify-end gap-3 border-t border-[#D5E2DF] pt-6">
-            <button type="button" onClick={onClose} className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+          <div className="mt-8 flex justify-end gap-3 border-t border-[#D5E2DF] dark:border-dark-border pt-6">
+            <button type="button" onClick={onClose} className="rounded-md bg-white dark:bg-dark-surface px-4 py-2 text-sm font-semibold text-gray-900 dark:text-dark-text-primary shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-dark-border-strong hover:bg-gray-50 dark:hover:bg-dark-hover dark:bg-dark-canvas/50 dark:hover:bg-dark-hover/50 dark:bg-dark-surface/50 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas">
               Cancel
             </button>
-            <button type="submit" disabled={loading} className="inline-flex justify-center rounded-md bg-[#23796F] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#173F3A] disabled:opacity-70 flex items-center">
+            <button type="submit" disabled={loading} className="inline-flex justify-center rounded-md bg-[#23796F] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#173F3A] disabled:opacity-70 flex items-center outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas">
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save Member
             </button>

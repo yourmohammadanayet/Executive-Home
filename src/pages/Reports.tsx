@@ -14,7 +14,7 @@ export default function Reports() {
   ];
 
   return (
-    <div className="flex flex-col h-full bg-[#F5F8F7]">
+    <div className="flex flex-col h-full bg-[#F5F8F7] dark:bg-dark-canvas">
       <ReportViewerModal
         isOpen={selectedReport !== null}
         onClose={() => setSelectedReport(null)}
@@ -27,19 +27,19 @@ export default function Reports() {
             <div
               key={report.title}
               onClick={() => setSelectedReport(report.title)}
-              className="bg-white rounded-xl border border-[#D5E2DF] p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col"
+              className="bg-white dark:bg-dark-surface rounded-xl border border-[#D5E2DF] dark:border-dark-border p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
             >
-              <div className="w-10 h-10 bg-[#F5F8F7] text-[#23796F] rounded flex items-center justify-center mb-4">
+              <div className="w-10 h-10 bg-[#F5F8F7] dark:bg-dark-canvas text-[#23796F] dark:text-dark-teal rounded flex items-center justify-center mb-4">
                 <FileBarChart2 className="w-5 h-5" />
               </div>
-              <h3 className="text-sm font-bold text-[#173F3A] mb-2">{report.title}</h3>
-              <p className="text-xs text-gray-500 mb-6 flex-1">{report.desc}</p>
+              <h3 className="text-sm font-bold text-[#173F3A] dark:text-dark-text-primary mb-2">{report.title}</h3>
+              <p className="text-xs text-gray-500 dark:text-dark-text-secondary mb-6 flex-1">{report.desc}</p>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedReport(report.title);
                 }}
-                className="text-left text-[#23796F] text-[10px] font-bold uppercase tracking-widest hover:text-[#173F3A] transition-colors mt-auto"
+                className="text-left text-[#23796F] dark:text-dark-teal text-[10px] font-bold uppercase tracking-widest hover:text-[#173F3A] dark:hover:text-dark-text-primary dark:text-dark-text-primary transition-colors mt-auto"
               >
                 Generate &rarr;
               </button>

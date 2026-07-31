@@ -270,7 +270,44 @@ export function runDataCorrectionMigration(): UserAccessRecord[] {
 }
 
 export function getUserAccessRecords(): UserAccessRecord[] {
-  return runDataCorrectionMigration();
+  const records = runDataCorrectionMigration();
+  let modified = false;
+
+  try {
+    const membersStr = localStorage.getItem('eh_members');
+    if (membersStr) {
+      const members = JSON.parse(membersStr);
+      members.forEach((m: any) => {
+        const match = records.find(r => r.member_code === m.member_code || (m.email && r.email && r.email.toLowerCase().trim() === m.email.toLowerCase().trim()));
+        if (!match) {
+          records.push({
+            id: `user-${m.id || Date.now() + Math.random()}`,
+            email: m.email || '',
+            full_name: m.full_name,
+            phone: m.phone || '',
+            member_code: m.member_code,
+            room_name: m.room?.name || 'Assigned Room',
+            role: 'member',
+            approval_status: m.approval_status || 'Approved',
+            login_access: 'Disabled',
+            account_status: 'Active',
+            email_verified: false,
+            last_login: 'Never',
+            created_at: m.created_at || new Date().toISOString(),
+          });
+          modified = true;
+        }
+      });
+    }
+  } catch (err) {
+    console.error('Error auto-syncing members to access records:', err);
+  }
+
+  if (modified) {
+    saveUserAccessRecords(records);
+  }
+
+  return records;
 }
 
 export function saveUserAccessRecords(records: UserAccessRecord[]) {
@@ -453,18 +490,91 @@ export function updateProfileRequestStatus(id: string, status: 'Approved' | 'Rej
   const requests = getProfileUpdateRequests();
   const index = requests.findIndex(r => r.id === id);
   if (index !== -1) {
-    requests[index].status = status;
+    const req = requests[index];
+    req.status = status;
     localStorage.setItem(PROFILE_REQUESTS_KEY, JSON.stringify(requests));
+
+    if (status === 'Approved') {
+      // 1. Update UserAccessRecord
+      const userRecords = getUserAccessRecords();
+      const userIndex = userRecords.findIndex(u => u.member_code === req.member_code || u.id === req.member_id);
+      if (userIndex !== -1) {
+        userRecords[userIndex] = {
+          ...userRecords[userIndex],
+          email: req.requested_fields.email !== undefined ? req.requested_fields.email : userRecords[userIndex].email,
+          phone: req.requested_fields.phone !== undefined ? req.requested_fields.phone : userRecords[userIndex].phone,
+        };
+        saveUserAccessRecords(userRecords);
+      }
+
+      // 2. Update Member Record in main members table
+      try {
+        const membersStr = localStorage.getItem('eh_members');
+        if (membersStr) {
+          const members = JSON.parse(membersStr);
+          const mIndex = members.findIndex((m: any) => m.member_code === req.member_code || m.id === req.member_id);
+          if (mIndex !== -1) {
+            members[mIndex] = {
+              ...members[mIndex],
+              ...req.requested_fields,
+            };
+            localStorage.setItem('eh_members', JSON.stringify(members));
+          }
+        }
+      } catch (err) {
+        console.error('Error syncing member update request approval:', err);
+      }
+    }
 
     addAuditEntry({
       actor_name: adminActorName,
       actor_email: 'admin@exechome.com',
       action: `Profile Update ${status}`,
-      target_user: `${requests[index].member_name} (${requests[index].member_code})`,
+      target_user: `${req.member_name} (${req.member_code})`,
       old_value: 'Pending',
       new_value: status,
     });
   }
+}
+
+export function updateDirectUserProfile(userId: string, updatedFields: Partial<UserAccessRecord>, requestedFields: Record<string, any> = {}) {
+  // Update UserAccessRecord
+  const userRecords = getUserAccessRecords();
+  const userIndex = userRecords.findIndex(u => u.id === userId);
+  let updatedUser = null;
+
+  if (userIndex !== -1) {
+    userRecords[userIndex] = {
+      ...userRecords[userIndex],
+      ...updatedFields,
+    };
+    saveUserAccessRecords(userRecords);
+    updatedUser = userRecords[userIndex];
+  }
+
+  // Sync to Member Record
+  try {
+    const membersStr = localStorage.getItem('eh_members');
+    if (membersStr) {
+      const members = JSON.parse(membersStr);
+      const matchCode = updatedUser?.member_code || userRecords[userIndex]?.member_code;
+      const mIndex = members.findIndex((m: any) => m.member_code === matchCode || m.id === userId);
+      if (mIndex !== -1) {
+        members[mIndex] = {
+          ...members[mIndex],
+          ...requestedFields,
+          full_name: updatedFields.full_name !== undefined ? updatedFields.full_name : members[mIndex].full_name,
+          email: updatedFields.email !== undefined ? updatedFields.email : members[mIndex].email,
+          phone: updatedFields.phone !== undefined ? updatedFields.phone : members[mIndex].phone,
+        };
+        localStorage.setItem('eh_members', JSON.stringify(members));
+      }
+    }
+  } catch (err) {
+    console.error('Error syncing direct profile update to members:', err);
+  }
+
+  return updatedUser;
 }
 
 export interface SentEmailNotification {

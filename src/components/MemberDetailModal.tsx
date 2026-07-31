@@ -89,13 +89,13 @@ export default function MemberDetailModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/80 p-2 sm:p-4 overflow-y-auto">
-      <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col border border-teal-100">
+      <div className="relative w-full max-w-3xl rounded-2xl bg-white dark:bg-dark-surface shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col border border-teal-100">
         
         {/* MODAL HEADER CARD */}
         <div className="bg-gradient-to-r from-[#173F3A] via-[#1f564f] to-[#23796F] text-white p-5 sm:p-6 shrink-0 relative">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-teal-100 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 text-teal-100 hover:text-white hover:bg-white dark:bg-dark-surface/10 rounded-full transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
             title="Close"
           >
             <X className="h-5 w-5" />
@@ -123,7 +123,7 @@ export default function MemberDetailModal({
             {/* MEMBER MAIN DETAILS */}
             <div className="space-y-1 flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-0.5 bg-white/20 text-teal-100 text-[11px] font-bold uppercase rounded-md tracking-wider">
+                <span className="px-2.5 py-0.5 bg-white dark:bg-dark-surface/20 text-teal-100 text-[11px] font-bold uppercase rounded-md tracking-wider">
                   {member.member_code}
                 </span>
                 <span className="px-2.5 py-0.5 bg-amber-400 text-slate-950 text-[11px] font-bold uppercase rounded-md">
@@ -149,7 +149,7 @@ export default function MemberDetailModal({
                   onClose();
                   onEdit(member);
                 }}
-                className="mt-2 sm:mt-0 px-3.5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shrink-0"
+                className="mt-2 sm:mt-0 px-3.5 py-2 bg-white dark:bg-dark-surface/10 hover:bg-white dark:bg-dark-surface/20 border border-white/20 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
               >
                 Edit Profile
               </button>
@@ -162,8 +162,8 @@ export default function MemberDetailModal({
               onClick={() => setActiveTab('profile')}
               className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'profile'
-                  ? 'border-white text-white bg-white/10 rounded-t-lg'
-                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white/5'
+                  ? 'border-white text-white bg-white dark:bg-dark-surface/10 rounded-t-lg'
+                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white dark:bg-dark-surface/5'
               }`}
             >
               <UserCheck className="w-3.5 h-3.5" /> Professional & Personal
@@ -172,8 +172,8 @@ export default function MemberDetailModal({
               onClick={() => setActiveTab('room')}
               className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'room'
-                  ? 'border-white text-white bg-white/10 rounded-t-lg'
-                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white/5'
+                  ? 'border-white text-white bg-white dark:bg-dark-surface/10 rounded-t-lg'
+                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white dark:bg-dark-surface/5'
               }`}
             >
               <Building2 className="w-3.5 h-3.5" /> Room & Roommates
@@ -182,8 +182,8 @@ export default function MemberDetailModal({
               onClick={() => setActiveTab('documents')}
               className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'documents'
-                  ? 'border-white text-white bg-white/10 rounded-t-lg'
-                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white/5'
+                  ? 'border-white text-white bg-white dark:bg-dark-surface/10 rounded-t-lg'
+                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white dark:bg-dark-surface/5'
               }`}
             >
               <FileText className="w-3.5 h-3.5" /> Documents ({memberDocs.length})
@@ -192,8 +192,8 @@ export default function MemberDetailModal({
               onClick={() => setActiveTab('payments')}
               className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'payments'
-                  ? 'border-white text-white bg-white/10 rounded-t-lg'
-                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white/5'
+                  ? 'border-white text-white bg-white dark:bg-dark-surface/10 rounded-t-lg'
+                  : 'border-transparent text-teal-200 hover:text-white hover:bg-white dark:bg-dark-surface/5'
               }`}
             >
               <CreditCard className="w-3.5 h-3.5" /> Payments & Receipts ({memberPayments.length})
@@ -202,29 +202,29 @@ export default function MemberDetailModal({
         </div>
 
         {/* TAB CONTENTS BODY */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6 bg-[#F5F8F7]">
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6 bg-[#F5F8F7] dark:bg-dark-canvas">
           
           {/* TAB 1: PROFESSIONAL & PERSONAL DETAILS */}
           {activeTab === 'profile' && (
             <div className="space-y-6">
               
               {/* CONTACT & WORK INFORMATION CARD */}
-              <div className="bg-white p-5 rounded-xl border border-[#D5E2DF] shadow-sm space-y-4">
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] flex items-center gap-2 pb-3 border-b border-gray-100">
-                  <Briefcase className="w-4 h-4 text-[#23796F]" /> Professional & Contact Profile
+              <div className="bg-white dark:bg-dark-surface p-5 rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm space-y-4">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] dark:text-dark-text-primary flex items-center gap-2 pb-3 border-b border-gray-100 dark:border-dark-border">
+                  <Briefcase className="w-4 h-4 text-[#23796F] dark:text-dark-teal" /> Professional & Contact Profile
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-semibold mb-1 flex items-center gap-1">
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-semibold mb-1 flex items-center gap-1">
                       <Phone className="w-3.5 h-3.5 text-teal-700" /> Phone Number
                     </p>
-                    <p className="text-sm font-bold text-gray-900">{member.phone || 'Not provided'}</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-dark-text-primary">{member.phone || 'Not provided'}</p>
                     {member.phone && (
                       <div className="mt-2 flex gap-2">
                         <a
                           href={`tel:${member.phone}`}
-                          className="px-2.5 py-1 bg-teal-50 text-teal-800 border border-teal-200 rounded font-bold hover:bg-teal-100 transition-colors"
+                          className="px-2.5 py-1 bg-teal-50 dark:bg-dark-teal/10 text-teal-800 border border-teal-200 rounded font-bold hover:bg-teal-100 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                         >
                           Call Now
                         </a>
@@ -232,7 +232,7 @@ export default function MemberDetailModal({
                           href={`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="px-2.5 py-1 bg-green-50 text-green-800 border border-green-200 rounded font-bold hover:bg-green-100 transition-colors"
+                          className="px-2.5 py-1 bg-green-50 text-green-800 border border-green-200 rounded font-bold hover:bg-green-100 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                         >
                           WhatsApp
                         </a>
@@ -240,60 +240,60 @@ export default function MemberDetailModal({
                     )}
                   </div>
 
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-semibold mb-1 flex items-center gap-1">
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-semibold mb-1 flex items-center gap-1">
                       <Mail className="w-3.5 h-3.5 text-teal-700" /> Email Address
                     </p>
-                    <p className="text-sm font-bold text-gray-900 break-all">{member.email || 'Not provided'}</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-dark-text-primary break-all">{member.email || 'Not provided'}</p>
                     {member.email && (
                       <a
                         href={`mailto:${member.email}`}
-                        className="mt-2 inline-block px-2.5 py-1 bg-teal-50 text-teal-800 border border-teal-200 rounded font-bold hover:bg-teal-100 transition-colors"
+                        className="mt-2 inline-block px-2.5 py-1 bg-teal-50 dark:bg-dark-teal/10 text-teal-800 border border-teal-200 rounded font-bold hover:bg-teal-100 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                       >
                         Send Email
                       </a>
                     )}
                   </div>
 
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-semibold mb-1 flex items-center gap-1">
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-semibold mb-1 flex items-center gap-1">
                       <Briefcase className="w-3.5 h-3.5 text-teal-700" /> Profession / Occupation
                     </p>
-                    <p className="text-sm font-bold text-[#173F3A]">{member.profession || 'Corporate Professional'}</p>
+                    <p className="text-sm font-bold text-[#173F3A] dark:text-dark-text-primary">{member.profession || 'Corporate Professional'}</p>
                   </div>
 
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-semibold mb-1 flex items-center gap-1">
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-semibold mb-1 flex items-center gap-1">
                       <Building2 className="w-3.5 h-3.5 text-teal-700" /> Company / Institution
                     </p>
-                    <p className="text-sm font-bold text-[#173F3A]">{member.institution || 'Private Entity'}</p>
+                    <p className="text-sm font-bold text-[#173F3A] dark:text-dark-text-primary">{member.institution || 'Private Entity'}</p>
                   </div>
                 </div>
               </div>
 
               {/* PERSONAL IDENTITY & EMERGENCY CONTACT */}
-              <div className="bg-white p-5 rounded-xl border border-[#D5E2DF] shadow-sm space-y-4">
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] flex items-center gap-2 pb-3 border-b border-gray-100">
-                  <ShieldCheck className="w-4 h-4 text-[#23796F]" /> Identity & Emergency Info
+              <div className="bg-white dark:bg-dark-surface p-5 rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm space-y-4">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] dark:text-dark-text-primary flex items-center gap-2 pb-3 border-b border-gray-100 dark:border-dark-border">
+                  <ShieldCheck className="w-4 h-4 text-[#23796F] dark:text-dark-teal" /> Identity & Emergency Info
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <p className="text-gray-500 font-medium">National ID (NID) / Passport</p>
-                    <p className="text-sm font-bold text-gray-800 mt-0.5">{member.nid_number || '199426912345001'}</p>
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-medium">National ID (NID) / Passport</p>
+                    <p className="text-sm font-bold text-gray-800 dark:text-dark-text-primary mt-0.5">{member.nid_number || '199426912345001'}</p>
                   </div>
 
                   <div>
-                    <p className="text-gray-500 font-medium">Blood Group</p>
-                    <p className="text-sm font-bold text-red-600 mt-0.5 flex items-center gap-1">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-medium">Blood Group</p>
+                    <p className="text-sm font-bold text-red-600 dark:text-dark-red mt-0.5 flex items-center gap-1">
                       <HeartPulse className="w-3.5 h-3.5" /> {member.blood_group || 'B+'}
                     </p>
                   </div>
 
                   <div className="sm:col-span-2">
-                    <p className="text-gray-500 font-medium">Permanent Address</p>
-                    <p className="text-sm font-medium text-gray-800 mt-0.5 flex items-start gap-1">
-                      <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-medium">Permanent Address</p>
+                    <p className="text-sm font-medium text-gray-800 dark:text-dark-text-primary mt-0.5 flex items-start gap-1">
+                      <MapPin className="w-4 h-4 text-gray-400 dark:text-dark-text-muted shrink-0 mt-0.5" />
                       <span>{member.permanent_address || 'House 42, Road 5, Block B, Mirpur, Dhaka'}</span>
                     </p>
                   </div>
@@ -322,39 +322,39 @@ export default function MemberDetailModal({
           {/* TAB 2: ROOM & ROOMMATES */}
           {activeTab === 'room' && (
             <div className="space-y-6">
-              <div className="bg-white p-5 rounded-xl border border-[#D5E2DF] shadow-sm space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-                  <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-[#23796F]" /> Accommodation Summary
+              <div className="bg-white dark:bg-dark-surface p-5 rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-dark-border">
+                  <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] dark:text-dark-text-primary flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-[#23796F] dark:text-dark-teal" /> Accommodation Summary
                   </h3>
-                  <span className="px-2.5 py-1 bg-teal-50 text-[#173F3A] border border-teal-200 text-xs font-bold rounded-lg">
+                  <span className="px-2.5 py-1 bg-teal-50 dark:bg-dark-teal/10 text-[#173F3A] dark:text-dark-text-primary border border-teal-200 text-xs font-bold rounded-lg">
                     {roomName}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-medium">Base Monthly Rent</p>
-                    <p className="text-base font-extrabold text-[#173F3A] mt-1">৳{member.base_monthly_rent?.toLocaleString()}</p>
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-medium">Base Monthly Rent</p>
+                    <p className="text-base font-extrabold text-[#173F3A] dark:text-dark-text-primary mt-1">৳{member.base_monthly_rent?.toLocaleString()}</p>
                   </div>
 
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-medium">Move-in Date</p>
-                    <p className="text-xs font-bold text-gray-800 mt-1 flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-medium">Move-in Date</p>
+                    <p className="text-xs font-bold text-gray-800 dark:text-dark-text-primary mt-1 flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5 text-gray-400 dark:text-dark-text-muted" />
                       {safeFormatDate(member.move_in_date, 'MMM dd, yyyy')}
                     </p>
                   </div>
 
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-medium">Joining Charge</p>
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-medium">Joining Charge</p>
                     <p className={`text-xs font-bold mt-1 ${isJcPaid ? 'text-green-700' : 'text-amber-700'}`}>
                       {isJcPaid ? 'Paid (৳1,500)' : `Due (৳${jc?.due_amount || 1500})`}
                     </p>
                   </div>
 
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-gray-500 font-medium">Verification Status</p>
+                  <div className="bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 p-3 rounded-lg border border-gray-100 dark:border-dark-border">
+                    <p className="text-gray-500 dark:text-dark-text-secondary font-medium">Verification Status</p>
                     <p className="text-xs font-bold text-teal-800 mt-1 flex items-center gap-1">
                       <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
                       {member.document_status || 'Verified'}
@@ -364,33 +364,33 @@ export default function MemberDetailModal({
               </div>
 
               {/* ROOMMATES IN THIS ROOM */}
-              <div className="bg-white p-5 rounded-xl border border-[#D5E2DF] shadow-sm space-y-4">
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] flex items-center justify-between pb-3 border-b border-gray-100">
+              <div className="bg-white dark:bg-dark-surface p-5 rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm space-y-4">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] dark:text-dark-text-primary flex items-center justify-between pb-3 border-b border-gray-100 dark:border-dark-border">
                   <span>Roommates in {roomName}</span>
-                  <span className="text-gray-500 font-normal">{roommates.length} Other Resident(s)</span>
+                  <span className="text-gray-500 dark:text-dark-text-secondary font-normal">{roommates.length} Other Resident(s)</span>
                 </h3>
 
                 {roommates.length === 0 ? (
-                  <p className="text-xs text-gray-500 py-4 text-center">No other members currently assigned to this room.</p>
+                  <p className="text-xs text-gray-500 dark:text-dark-text-secondary py-4 text-center">No other members currently assigned to this room.</p>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {roommates.map(mate => (
                       <div
                         key={mate.id}
                         onClick={() => onMemberSelect && onMemberSelect(mate)}
-                        className="p-3 rounded-xl border border-gray-200 hover:border-[#23796F] bg-gray-50 hover:bg-teal-50/50 transition-all cursor-pointer flex items-center gap-3 group"
+                        className="p-3 rounded-xl border border-gray-200 dark:border-dark-border hover:border-[#23796F] dark:border-emerald-500 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 hover:bg-teal-50/50 transition-all cursor-pointer flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                       >
                         <div className="h-10 w-10 rounded-full bg-[#173F3A] text-white flex items-center justify-center font-bold text-xs shrink-0">
                           {getInitials(mate.full_name)}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-gray-900 truncate group-hover:text-[#23796F]">
+                          <p className="text-xs font-bold text-gray-900 dark:text-dark-text-primary truncate group-hover:text-[#23796F] dark:hover:text-dark-teal dark:text-dark-teal">
                             {mate.full_name}
                           </p>
-                          <p className="text-[11px] text-gray-500 truncate">{mate.profession || 'Resident'}</p>
+                          <p className="text-[11px] text-gray-500 dark:text-dark-text-secondary truncate">{mate.profession || 'Resident'}</p>
                           <p className="text-[10px] text-teal-800 font-medium">{mate.phone || 'Phone on file'}</p>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-[#23796F] shrink-0" />
+                        <ExternalLink className="w-4 h-4 text-gray-400 dark:text-dark-text-muted group-hover:text-[#23796F] dark:hover:text-dark-teal dark:text-dark-teal shrink-0" />
                       </div>
                     ))}
                   </div>
@@ -403,13 +403,13 @@ export default function MemberDetailModal({
           {activeTab === 'documents' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A]">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] dark:text-dark-text-primary">
                   Uploaded Identification & Documentation
                 </h3>
                 <button
                   type="button"
                   onClick={() => setIsUploadDocOpen(true)}
-                  className="px-3 py-1.5 bg-[#23796F] hover:bg-[#173F3A] text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
+                  className="px-3 py-1.5 bg-[#23796F] hover:bg-[#173F3A] text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                 >
                   <Upload className="w-3.5 h-3.5" /> Upload Document
                 </button>
@@ -418,14 +418,14 @@ export default function MemberDetailModal({
               {memberDocs.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {memberDocs.map((doc, idx) => (
-                    <div key={doc.id || idx} className="bg-white p-4 rounded-xl border border-[#D5E2DF] shadow-sm flex flex-col justify-between space-y-3">
+                    <div key={doc.id || idx} className="bg-white dark:bg-dark-surface p-4 rounded-xl border border-[#D5E2DF] dark:border-dark-border shadow-sm flex flex-col justify-between space-y-3">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <span className="px-2 py-0.5 bg-teal-50 text-teal-800 text-[10px] font-bold uppercase rounded border border-teal-200">
+                          <span className="px-2 py-0.5 bg-teal-50 dark:bg-dark-teal/10 text-teal-800 text-[10px] font-bold uppercase rounded border border-teal-200">
                             {doc.document_type || 'Document'}
                           </span>
-                          <h4 className="text-sm font-bold text-gray-900 mt-1">{doc.document_name || doc.document_type}</h4>
-                          <p className="text-[11px] text-gray-500">Submitted on: {safeFormatDate(doc.submitted_at, 'MMM dd, yyyy')}</p>
+                          <h4 className="text-sm font-bold text-gray-900 dark:text-dark-text-primary mt-1">{doc.document_name || doc.document_type}</h4>
+                          <p className="text-[11px] text-gray-500 dark:text-dark-text-secondary">Submitted on: {safeFormatDate(doc.submitted_at, 'MMM dd, yyyy')}</p>
                         </div>
                         <span className="px-2 py-0.5 bg-green-50 text-green-700 font-bold text-[10px] rounded border border-green-200">
                           {doc.status || 'Verified'}
@@ -437,12 +437,12 @@ export default function MemberDetailModal({
                           href={doc.file_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded text-center transition-colors flex items-center justify-center gap-1"
+                          className="px-3 py-1.5 bg-gray-100 dark:bg-dark-raised hover:bg-gray-200 dark:hover:bg-dark-hover text-gray-800 dark:text-dark-text-primary text-xs font-bold rounded text-center transition-colors flex items-center justify-center gap-1 outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                         >
                           <ExternalLink className="w-3.5 h-3.5" /> View / Download File
                         </a>
                       ) : (
-                        <div className="p-2 bg-gray-50 rounded border border-dashed border-gray-300 text-center text-[11px] text-gray-500">
+                        <div className="p-2 bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 rounded border border-dashed border-gray-300 dark:border-dark-border-strong text-center text-[11px] text-gray-500 dark:text-dark-text-secondary">
                           📄 On-file Verification Document Logged
                         </div>
                       )}
@@ -450,18 +450,18 @@ export default function MemberDetailModal({
                   ))}
                 </div>
               ) : (
-                <div className="bg-white p-6 rounded-xl border border-[#D5E2DF] text-center space-y-3">
-                  <p className="text-xs text-gray-600 font-medium">Standard onboarding checklist items for {member.full_name}:</p>
+                <div className="bg-white dark:bg-dark-surface p-6 rounded-xl border border-[#D5E2DF] dark:border-dark-border text-center space-y-3">
+                  <p className="text-xs text-gray-600 dark:text-dark-text-secondary font-medium">Standard onboarding checklist items for {member.full_name}:</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left max-w-xl mx-auto">
                     {defaultDocTypes.map((dt) => (
-                      <div key={dt.key} className="p-3 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-between">
+                      <div key={dt.key} className="p-3 rounded-lg border border-gray-200 dark:border-dark-border bg-gray-50 dark:bg-dark-canvas/50 dark:bg-dark-surface/50 flex items-center justify-between">
                         <div>
-                          <p className="text-xs font-bold text-gray-800">{dt.title}</p>
+                          <p className="text-xs font-bold text-gray-800 dark:text-dark-text-primary">{dt.title}</p>
                           <p className="text-[10px] text-amber-700 font-medium">Pending upload</p>
                         </div>
                         <button
                           onClick={() => setIsUploadDocOpen(true)}
-                          className="px-2 py-1 bg-white border border-gray-300 hover:bg-teal-50 text-[#173F3A] text-[10px] font-bold rounded"
+                          className="px-2 py-1 bg-white dark:bg-dark-surface border border-gray-300 dark:border-dark-border-strong hover:bg-teal-50 dark:bg-dark-teal/10 text-[#173F3A] dark:text-dark-text-primary text-[10px] font-bold rounded outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                         >
                           Upload
                         </button>
@@ -476,16 +476,16 @@ export default function MemberDetailModal({
           {/* TAB 4: PAYMENTS & RECEIPTS */}
           {activeTab === 'payments' && (
             <div className="space-y-4">
-              <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A]">
+              <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#173F3A] dark:text-dark-text-primary">
                 Cleared Payment Receipts History
               </h3>
 
               {memberPayments.length === 0 ? (
-                <div className="bg-white p-8 rounded-xl border border-[#D5E2DF] text-center text-gray-500 text-xs">
+                <div className="bg-white dark:bg-dark-surface p-8 rounded-xl border border-[#D5E2DF] dark:border-dark-border text-center text-gray-500 dark:text-dark-text-secondary text-xs">
                   No payment records found yet for this member.
                 </div>
               ) : (
-                <div className="bg-white rounded-xl border border-[#D5E2DF] overflow-hidden shadow-sm">
+                <div className="bg-white dark:bg-dark-surface rounded-xl border border-[#D5E2DF] dark:border-dark-border overflow-hidden shadow-sm">
                   <table className="w-full text-left text-xs">
                     <thead className="bg-[#173F3A] text-white font-bold uppercase text-[10px] tracking-wider">
                       <tr>
@@ -497,28 +497,28 @@ export default function MemberDetailModal({
                         <th className="px-4 py-3 text-center">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-gray-100 dark:divide-dark-divider">
                       {memberPayments.map((p) => (
-                        <tr key={p.id} className="hover:bg-teal-50/50 transition-colors">
-                          <td className="px-4 py-3 font-mono font-bold text-[#173F3A]">{p.receipt_number}</td>
-                          <td className="px-4 py-3 text-gray-600">{safeFormatDate(p.payment_date, 'MMM dd, yyyy')}</td>
-                          <td className="px-4 py-3 text-gray-800 font-medium">{p.payment_type}</td>
+                        <tr key={p.id} className="hover:bg-teal-50/50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas">
+                          <td className="px-4 py-3 font-mono font-bold text-[#173F3A] dark:text-dark-text-primary">{p.receipt_number}</td>
+                          <td className="px-4 py-3 text-gray-600 dark:text-dark-text-secondary">{safeFormatDate(p.payment_date, 'MMM dd, yyyy')}</td>
+                          <td className="px-4 py-3 text-gray-800 dark:text-dark-text-primary font-medium">{p.payment_type}</td>
                           <td className="px-4 py-3">
-                            <span className="px-2 py-0.5 bg-gray-100 text-gray-800 rounded font-semibold text-[10px]">
+                            <span className="px-2 py-0.5 bg-gray-100 dark:bg-dark-raised text-gray-800 dark:text-dark-text-primary rounded font-semibold text-[10px]">
                               {p.payment_method}
                             </span>
                             {p.transaction_id && (
                               <p className="text-[10px] font-mono text-teal-800">TrxID: {p.transaction_id}</p>
                             )}
                           </td>
-                          <td className="px-4 py-3 text-right font-extrabold text-[#173F3A]">
+                          <td className="px-4 py-3 text-right font-extrabold text-[#173F3A] dark:text-dark-text-primary">
                             ৳{Number(p.amount).toLocaleString()}
                           </td>
                           <td className="px-4 py-3 text-center">
                             <button
                               type="button"
                               onClick={() => setSelectedReceiptPayment(p)}
-                              className="px-2.5 py-1 bg-[#23796F] text-white hover:bg-[#173F3A] text-[10px] font-bold rounded transition-colors"
+                              className="px-2.5 py-1 bg-[#23796F] text-white hover:bg-[#173F3A] text-[10px] font-bold rounded transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
                             >
                               View Receipt
                             </button>
@@ -535,13 +535,13 @@ export default function MemberDetailModal({
         </div>
 
         {/* MODAL FOOTER */}
-        <div className="bg-white border-t border-[#D5E2DF] p-4 shrink-0 flex items-center justify-between">
-          <p className="text-[11px] text-gray-500">
+        <div className="bg-white dark:bg-dark-surface border-t border-[#D5E2DF] dark:border-dark-border p-4 shrink-0 flex items-center justify-between">
+          <p className="text-[11px] text-gray-500 dark:text-dark-text-secondary">
             Executive Home Management System • Verified Resident Record
           </p>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold rounded-lg transition-colors"
+            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:text-dark-text-primary text-xs font-bold rounded-lg transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#23796F] dark:focus-visible:ring-dark-teal focus-visible:ring-offset-1 dark:focus-visible:ring-offset-dark-canvas"
           >
             Close Profile
           </button>
