@@ -25,6 +25,7 @@ export type AccountStatus = 'Active' | 'Suspended';
 export interface UserAccessRecord {
   id: string;
   email: string;
+  photo_url?: string;
   full_name: string;
   phone: string;
   member_code?: string;

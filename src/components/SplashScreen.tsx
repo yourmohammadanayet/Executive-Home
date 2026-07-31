@@ -87,7 +87,11 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
               >
                 <div className="relative">
                   <div className="w-20 h-20 rounded-full bg-[#173F3A] dark:bg-dark-surface text-white flex items-center justify-center font-bold text-3xl shrink-0 shadow-lg border-4 border-white dark:border-dark-border mb-4 z-10 relative">
-                    {userAccess.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')}
+                    {userAccess.photo_url ? (
+                    <img src={userAccess.photo_url} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    userAccess.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')
+                  )}
                   </div>
                   
                   {/* Ping animation around avatar */}

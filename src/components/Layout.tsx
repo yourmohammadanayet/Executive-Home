@@ -342,7 +342,11 @@ export default function Layout() {
             <div className={clsx("flex flex-col gap-3 w-full", isCollapsed ? "flex lg:hidden" : "flex")}>
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="w-10 h-10 rounded-full bg-[#173F3A] text-white flex items-center justify-center font-bold text-sm shrink-0 border-2 border-[#23796F] dark:border-emerald-500 shadow-xs">
-                  {userAccess?.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')}
+                  {userAccess?.photo_url ? (
+                    <img src={userAccess.photo_url} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    userAccess?.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')
+                  )}
                 </div>
                 <div className="flex flex-col min-w-0 text-left">
                   <span className="text-[14px] font-bold text-[#173F3A] dark:text-dark-text-primary truncate leading-tight">
@@ -369,7 +373,11 @@ export default function Layout() {
               <div 
                 className="w-10 h-10 rounded-full bg-[#173F3A] text-white flex items-center justify-center font-bold text-sm shrink-0 border-2 border-[#23796F] dark:border-emerald-500 shadow-xs cursor-help relative group/profile"
               >
-                {userAccess?.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')}
+                {userAccess?.photo_url ? (
+                    <img src={userAccess.photo_url} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    userAccess?.full_name?.charAt(0) || (isAdmin ? 'A' : 'M')
+                  )}
                 <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-gray-900 text-white text-[11px] font-medium rounded shadow-md opacity-0 group-hover/profile:opacity-100 pointer-events-none z-50 whitespace-nowrap transition-opacity">
                   <div className="font-bold">{userAccess?.full_name || 'Mohammad Anayet'}</div>
                   <div className="text-[9px] text-gray-300 capitalize">{role}</div>
@@ -463,7 +471,11 @@ export default function Layout() {
                   className="w-8 h-8 rounded-full bg-[#173F3A] text-white text-xs font-bold flex items-center justify-center border border-teal-600 hover:scale-105 active:scale-95 transition-all duration-200 shadow-2xs"
                   title="Profile Menu"
                 >
-                  {userAccess?.full_name?.charAt(0) || 'U'}
+                  {userAccess?.photo_url ? (
+                    <img src={userAccess.photo_url} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    userAccess?.full_name?.charAt(0) || 'U'
+                  )}
                 </button>
 
                 {userMenuOpen && (

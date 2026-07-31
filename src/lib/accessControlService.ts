@@ -565,6 +565,7 @@ export function updateDirectUserProfile(userId: string, updatedFields: Partial<U
           ...requestedFields,
           full_name: updatedFields.full_name !== undefined ? updatedFields.full_name : members[mIndex].full_name,
           email: updatedFields.email !== undefined ? updatedFields.email : members[mIndex].email,
+          photo_url: updatedFields.photo_url !== undefined ? updatedFields.photo_url : members[mIndex].photo_url,
           phone: updatedFields.phone !== undefined ? updatedFields.phone : members[mIndex].phone,
         };
         localStorage.setItem('eh_members', JSON.stringify(members));

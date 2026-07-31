@@ -679,8 +679,12 @@ export default function UserAccess() {
                       {/* Member */}
                       <td className="py-3.5 px-4 font-semibold text-[#173F3A] dark:text-dark-text-primary">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-[#173F3A] text-white font-bold flex items-center justify-center shrink-0 text-xs">
-                            {rec.full_name.charAt(0)}
+                          <div className="w-8 h-8 rounded-full bg-[#173F3A] text-white font-bold flex items-center justify-center shrink-0 text-xs overflow-hidden">
+                            {rec.photo_url ? (
+                              <img src={rec.photo_url} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              rec.full_name.charAt(0)
+                            )}
                           </div>
                           <div>
                             <div className="font-bold text-[#173F3A] dark:text-dark-text-primary flex items-center gap-2">

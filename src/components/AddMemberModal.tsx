@@ -16,6 +16,7 @@ export default function AddMemberModal({ isOpen, onClose, onSuccess }: AddMember
 
   // Form State
   const [fullName, setFullName] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [roomId, setRoomId] = useState('');
